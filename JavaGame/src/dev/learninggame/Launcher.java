@@ -6,7 +6,7 @@ import dev.learninggame.Game;
 public class Launcher {
 	
 	public static void main(String[] args) {
-		Game game = new Game("METAL SLUG", 800, 600);
+		Game game = new Game("METAL SLUG", 680, 520);
 		game.start();
 	}
 	

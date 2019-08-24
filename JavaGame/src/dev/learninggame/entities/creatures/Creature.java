@@ -55,7 +55,7 @@ public abstract class Creature extends Entity{
 	}
 	
 	public void moveY() {
-		if(yMove < 0) {
+		if(yMove < 0) { //Cima
 			int ty = (int) (y + yMove + bounds.y) / Tile.TILEHEIGHT;
 		
 			if(!collisionWithTile((int) ((x + bounds.x) / Tile.TILEWIDTH), ty) &&
@@ -65,7 +65,7 @@ public abstract class Creature extends Entity{
 				y = ty * Tile.TILEWIDTH + Tile.TILEWIDTH - bounds.y;
 			}
 			
-		}else if(yMove > 0) {
+		}else if(yMove > 0) { //Baixo
 			int ty = (int) (y + yMove + bounds.y + bounds.height) / Tile.TILEHEIGHT;
 			
 			if(!collisionWithTile((int) ((x + bounds.x) / Tile.TILEWIDTH), ty) &&
