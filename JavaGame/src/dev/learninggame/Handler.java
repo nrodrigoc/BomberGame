@@ -2,6 +2,7 @@ package dev.learninggame;
 
 import dev.learninggame.gfx.GameCamera;
 import dev.learninggame.input.KeyManager;
+import dev.learninggame.input.MouseManager;
 import dev.learninggame.worlds.World;
 
 /**
@@ -25,6 +26,10 @@ public class Handler {
 	
 	public KeyManager getKeyManager() {
 		return game.getKeyManager();
+	}
+	
+	public MouseManager getMouseManager() {
+		return game.getMouseManager();
 	}
 	
 	public int getWidth() {

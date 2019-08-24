@@ -11,10 +11,16 @@ public class Assets {
 	public static BufferedImage[] player_down;
 	public static BufferedImage[] player_left;
 	public static BufferedImage[] player_right;
+	public static BufferedImage[] btn_play;
 	
 	/**Separacao dos Sprites*/
 	public static void init() {
 		SpriteSheet sheet = new SpriteSheet(ImageLoader.loadImage("/textures/sheet2.png"));
+		SpriteSheet botao = new SpriteSheet(ImageLoader.loadImage("/textures/botao.png"));
+		
+		btn_play = new BufferedImage[2];
+		btn_play[0] = botao.crop(9, 6, 293, 297);
+		btn_play[1] = botao.crop(332, 6, 293, 297);
 		
 		player_down = new BufferedImage[2];
 		player_down[1] = sheet.crop(w*3, 0, w, h);

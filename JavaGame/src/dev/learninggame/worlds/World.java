@@ -5,7 +5,6 @@ import java.awt.Graphics;
 import dev.learninggame.Handler;
 import dev.learninggame.entities.EntityManager;
 import dev.learninggame.entities.creatures.Player;
-import dev.learninggame.entities.statics.Tree;
 import dev.learninggame.tiles.Tile;
 import dev.learninggame.utils.Utils;
 
@@ -25,7 +24,6 @@ public class World {
 	public World(Handler handler, String path) {
 		this.handler = handler;
 		entityManager = new EntityManager(handler, new Player(handler, 100, 100));
-		entityManager.addEntity(new Tree(handler, 50, 150));
 		
 		loadWorld(path);
 		
