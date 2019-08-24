@@ -23,11 +23,11 @@ public class Player extends Creature implements Runnable{
 		super(handler, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
 		
 		//ajuste
-		bounds.x = 20;
-		bounds.y = 26;
+		bounds.x = 21;
+		bounds.y = 24;
 		//largura e comprimento da hitbox
-		bounds.width = 13;
-		bounds.height = 20;
+		bounds.width = 17;
+		bounds.height = 23;
 		
 		//Animations
 		animDown = new Animation(400, Assets.player_down);
@@ -81,9 +81,9 @@ public class Player extends Creature implements Runnable{
 
 		g.drawImage(getCurrentAnimation(), (int)(x - handler.getGameCamera().getxOffset()), (int)(y- handler.getGameCamera().getyOffset()), width, height, null);
 		
-		/*g.setColor(Color.red); // Testar hit box
+		g.setColor(Color.red); // Testar hit box
 		g.fillRect((int) (x + bounds.x - handler.getGameCamera().getxOffset()), 
-				(int) (y + bounds.y - handler.getGameCamera().getyOffset()), bounds.width, bounds.height);*/
+				(int) (y + bounds.y - handler.getGameCamera().getyOffset()), bounds.width, bounds.height);
 	}
 
 	private BufferedImage getCurrentAnimation() {

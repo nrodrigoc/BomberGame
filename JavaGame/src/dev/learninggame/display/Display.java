@@ -18,7 +18,9 @@ public class Display {
 		createDisplay();
 	}
 	
-	
+	/**
+	 * Este metodo cria o JFrame (tela) do jogo
+	 */
 	private void createDisplay() {
 		frame = new JFrame(title);
 		frame.setSize(width, height);

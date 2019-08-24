@@ -7,7 +7,7 @@ import dev.learninggame.tiles.Tile;
 public abstract class Creature extends Entity{
 
 	public static final int DEFAULT_HEALTH = 10;
-	public static final float DEFAULT_SPEED = 4.f;
+	public static final float DEFAULT_SPEED = 3.f;
 	//Tamanho em pixels das criaturas
 	public static final int DEFAULT_CREATURE_WIDTH = 54,
 							DEFAULT_CREATURE_HEIGHT = 50;
@@ -49,7 +49,7 @@ public abstract class Creature extends Entity{
 		    		!collisionWithTile(tx, (int) (y + bounds.y + bounds.height) / Tile.TILEHEIGHT)) {
 		    	x += xMove;
 		    }else {
-				x = tx * Tile.TILEWIDTH + bounds.x + bounds.width;
+				x = tx * Tile.TILEWIDTH + Tile.TILEWIDTH - bounds.x;
 			}
 		}
 	}
