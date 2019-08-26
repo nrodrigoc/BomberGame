@@ -32,7 +32,7 @@ public class Player extends Creature implements Runnable{
 		//Animations
 		animDown = new Animation(400, Assets.player_down);
 		animLeft = new Animation(200, Assets.player_left);
-		animRight = new Animation(200, Assets.player_right);
+		animRight = new Animation(75, Assets.player_right);
 	}
 
 	@Override

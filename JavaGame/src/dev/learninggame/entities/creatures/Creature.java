@@ -9,8 +9,8 @@ public abstract class Creature extends Entity{
 	public static final int DEFAULT_HEALTH = 10;
 	public static final float DEFAULT_SPEED = 3.f;
 	//Tamanho em pixels das criaturas
-	public static final int DEFAULT_CREATURE_WIDTH = 54,
-							DEFAULT_CREATURE_HEIGHT = 50;
+	public static final int DEFAULT_CREATURE_WIDTH = 80,
+							DEFAULT_CREATURE_HEIGHT = 79;
 	
 	
 	protected int health;
@@ -65,7 +65,7 @@ public abstract class Creature extends Entity{
 				y = ty * Tile.TILEWIDTH + Tile.TILEWIDTH - bounds.y;
 			}
 			
-		}else if(yMove > 0) { //Baixo
+		}else if(yMove > 0) { //Baixo 
 			int ty = (int) (y + yMove + bounds.y + bounds.height) / Tile.TILEHEIGHT;
 			
 			if(!collisionWithTile((int) ((x + bounds.x) / Tile.TILEWIDTH), ty) &&
