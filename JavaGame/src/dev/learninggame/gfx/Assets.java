@@ -6,9 +6,10 @@ import java.awt.image.BufferedImage;
 public class Assets {
 	
 	private static final int w = 32, h = 32; // Width and Height
-	private static final int wRobo = 567, hRobo = 556;
+	private static final int wMan = 125, hMan = 125;
 	
 	public static BufferedImage grass, dirt, rock, sand, brick, player, tree;
+	public static BufferedImage[] player_up;
 	public static BufferedImage[] player_down;
 	public static BufferedImage[] player_left;
 	public static BufferedImage[] player_right;
@@ -18,32 +19,37 @@ public class Assets {
 	public static void init() {
 		SpriteSheet sheet = new SpriteSheet(ImageLoader.loadImage("/textures/sheet2.png"));
 		SpriteSheet botao = new SpriteSheet(ImageLoader.loadImage("/textures/botao.png"));
-		SpriteSheet run = new SpriteSheet(ImageLoader.loadImage("/textures/run.png"));
+		SpriteSheet manSheet = new SpriteSheet(ImageLoader.loadImage("/textures/man.png"));
 		
 		btn_play = new BufferedImage[2];
 		btn_play[0] = botao.crop(9, 6, 293, 297);
 		btn_play[1] = botao.crop(332, 6, 293, 297);
 		
-		player_down = new BufferedImage[2];
-		player_down[1] = sheet.crop(w*3, 0, w, h);
-		player_down[0] = sheet.crop(w*3, h, w, h);
+		player_left = new BufferedImage[4];
+		player_left[0] = manSheet.crop(0, 0, wMan, hMan);
+		player_left[1] = manSheet.crop(wMan, 0, wMan, hMan);
+		player_left[2] = manSheet.crop(wMan*2, 0, wMan, hMan);
+		player_left[3] = manSheet.crop(wMan*3, 0, wMan, hMan);
 		
-		player_left = new BufferedImage[3];
-		player_left[0] = sheet.crop(0, h*2, w, h);
-		player_left[1] = sheet.crop(w, h*2, w, h);
-		player_left[2] = sheet.crop(w*2, h*2, w, h);
+		player_right = new BufferedImage[4];
+		player_right[0] = manSheet.crop(0, hMan, wMan, hMan);
+		player_right[1] = manSheet.crop(wMan, hMan, wMan, hMan);
+		player_right[2] = manSheet.crop(wMan*2, hMan, wMan, hMan);
+		player_right[3] = manSheet.crop(wMan*3, hMan, wMan, hMan);
 		
-		player_right = new BufferedImage[8];
-		player_right[0] = run.crop(0, 0, wRobo, hRobo);
-		player_right[1] = run.crop(wRobo, 0, wRobo, hRobo);
-		player_right[2] = run.crop(wRobo*2, 0, wRobo, hRobo);
-		player_right[3] = run.crop(0, hRobo, wRobo, hRobo);
-		player_right[4] = run.crop(wRobo, hRobo, wRobo, hRobo);
-		player_right[5] = run.crop(wRobo*2, hRobo, wRobo, hRobo);
-		player_right[6] = run.crop(0, hRobo*2, wRobo, hRobo);
-		player_right[7] = run.crop(wRobo, hRobo*2, wRobo, hRobo);
+		player_down = new BufferedImage[4];
+		player_down[0] = manSheet.crop(0, hMan*2, wMan, hMan);
+		player_down[1] = manSheet.crop(wMan, hMan*2, wMan, hMan);
+		player_down[2] = manSheet.crop(wMan*2, hMan*2, wMan, hMan);
+		player_down[3] = manSheet.crop(wMan*3, hMan*2, wMan, hMan);
 		
-		player = sheet.crop(w*2, h, w, h);
+		player_up = new BufferedImage[4];
+		player_up[0] = manSheet.crop(0, hMan*3, wMan, hMan);
+		player_up[1] = manSheet.crop(wMan, hMan*3, wMan, hMan);
+		player_up[2] = manSheet.crop(wMan*2, hMan*3, wMan, hMan);
+		player_up[3] = manSheet.crop(wMan*3, hMan*3, wMan, hMan);
+		
+		player = manSheet.crop(wMan, hMan*2, wMan, hMan);
 		grass = sheet.crop(0, 0, w, h);
 		sand = sheet.crop(w, 0, w, h);
 		rock = sheet.crop(w * 2, 0, w, h);

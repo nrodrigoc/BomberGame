@@ -11,6 +11,7 @@ import dev.learninggame.gfx.Assets;
 public class Player extends Creature implements Runnable{
 	
 	//Animations
+	private Animation animUp;
 	private Animation animDown;
 	private Animation animLeft;
 	private Animation animRight;
@@ -22,22 +23,24 @@ public class Player extends Creature implements Runnable{
 	public Player(Handler handler, float x, float y) {	
 		super(handler, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
 		
-		//ajuste
-		bounds.x = 21;
-		bounds.y = 24;
+		//ajuste da posicao da hitbox
+		bounds.x = 29;
+		bounds.y = 40;
 		//largura e comprimento da hitbox
-		bounds.width = 17;
-		bounds.height = 23;
+		bounds.width = 22;
+		bounds.height = 35;
 		
 		//Animations
-		animDown = new Animation(400, Assets.player_down);
-		animLeft = new Animation(200, Assets.player_left);
-		animRight = new Animation(75, Assets.player_right);
+		animUp = new Animation(180, Assets.player_up);
+		animDown = new Animation(180, Assets.player_down);
+		animLeft = new Animation(150, Assets.player_left);
+		animRight = new Animation(150, Assets.player_right);
 	}
 
 	@Override
 	public void tick() {
 		//Animations
+		animUp.tick();
 		animDown.tick();
 		animRight.tick();
 		animLeft.tick();
@@ -93,6 +96,8 @@ public class Player extends Creature implements Runnable{
 			return animLeft.getCurrentFrame();
 		if(yMove > 0)
 			return animDown.getCurrentFrame();
+		if(yMove < 0)
+			return animUp.getCurrentFrame();
 		return Assets.player;
 	}
 	
