@@ -8,7 +8,7 @@ import dev.learninggame.worlds.World;
 /**
  * 
  * @author nrodrigo
- *Classe responsavel por administrar conter os elementos necessarios para executar o jogo
+ * 	
  */
 public class Handler {
 	

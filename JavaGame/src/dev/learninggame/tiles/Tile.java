@@ -15,7 +15,7 @@ public class Tile {
 	public static Tile brickTile = new BrickTile(4);
 	
 	//CLASS
-	public static final int TILEWIDTH = 60, TILEHEIGHT = 60; // Tamanho dos elementos do mapa
+	public static final int TILEWIDTH = 50, TILEHEIGHT = 50; // Tamanho dos elementos do mapa
 	
 	protected BufferedImage texture;
 	protected final int id;

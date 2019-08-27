@@ -13,13 +13,16 @@ public class Assets {
 	public static BufferedImage[] player_down;
 	public static BufferedImage[] player_left;
 	public static BufferedImage[] player_right;
+	public static BufferedImage[] putBomb;
 	public static BufferedImage[] btn_play;
+	
 	
 	/**Separacao dos Sprites*/
 	public static void init() {
 		SpriteSheet sheet = new SpriteSheet(ImageLoader.loadImage("/textures/sheet2.png"));
 		SpriteSheet botao = new SpriteSheet(ImageLoader.loadImage("/textures/botao.png"));
 		SpriteSheet manSheet = new SpriteSheet(ImageLoader.loadImage("/textures/man.png"));
+		SpriteSheet bombSheet = new SpriteSheet(ImageLoader.loadImage("/textures/bomba.png"));
 		
 		btn_play = new BufferedImage[2];
 		btn_play[0] = botao.crop(9, 6, 293, 297);
@@ -48,6 +51,10 @@ public class Assets {
 		player_up[1] = manSheet.crop(wMan, hMan*3, wMan, hMan);
 		player_up[2] = manSheet.crop(wMan*2, hMan*3, wMan, hMan);
 		player_up[3] = manSheet.crop(wMan*3, hMan*3, wMan, hMan);
+		
+		putBomb = new BufferedImage[2];
+		putBomb[0] = bombSheet.crop(0, 0, 512, 512);
+		putBomb[0] = bombSheet.crop(0, 512, 512, 512);
 		
 		player = manSheet.crop(wMan, hMan*2, wMan, hMan);
 		grass = sheet.crop(0, 0, w, h);

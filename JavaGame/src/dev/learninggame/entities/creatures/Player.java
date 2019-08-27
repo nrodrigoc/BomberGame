@@ -3,18 +3,26 @@ package dev.learninggame.entities.creatures;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 import dev.learninggame.Handler;
+import dev.learninggame.entities.Bomb;
 import dev.learninggame.gfx.Animation;
 import dev.learninggame.gfx.Assets;
 
 public class Player extends Creature implements Runnable{
+	
+	//Atributos
+	private Bomb bomb;
+	private int nOfBombs;
+	
 	
 	//Animations
 	private Animation animUp;
 	private Animation animDown;
 	private Animation animLeft;
 	private Animation animRight;
+	
 	@Override
 	public void run() {
 		System.out.println("player iniciado");
@@ -22,6 +30,9 @@ public class Player extends Creature implements Runnable{
 	
 	public Player(Handler handler, float x, float y) {	
 		super(handler, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
+		
+		bomb = null;
+		nOfBombs = 1;
 		
 		//ajuste da posicao da hitbox
 		bounds.x = 29;
@@ -63,6 +74,8 @@ public class Player extends Creature implements Runnable{
 			xMove = -speed;
 		if(handler.getKeyManager().right)
 			xMove = speed;
+		if(handler.getKeyManager().bomb)
+			installBomb();
 		
 		/*else if(numero == 2) { 2 player
 			if(handler.getKeyManager().up2)
@@ -79,10 +92,16 @@ public class Player extends Creature implements Runnable{
 		
 	}
 	
+	private void installBomb() {
+		 
+	}
+	
+	
 	@Override
 	public void render(Graphics g) {
 
-		g.drawImage(getCurrentAnimation(), (int)(x - handler.getGameCamera().getxOffset()), (int)(y- handler.getGameCamera().getyOffset()), width, height, null);
+		g.drawImage(getCurrentAnimation(), (int)(x - handler.getGameCamera().getxOffset()), 
+				(int)(y- handler.getGameCamera().getyOffset()), width, height, null);
 		
 		/*g.setColor(Color.red); // Testar hit box
 		g.fillRect((int) (x + bounds.x - handler.getGameCamera().getxOffset()), 

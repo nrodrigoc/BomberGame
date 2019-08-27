@@ -36,7 +36,9 @@ public class World {
 	}
 	
 	public void render(Graphics g){
-		int xStart = (int) Math.max(0, handler.getGameCamera().getxOffset() / Tile.TILEHEIGHT);//contem o inicio do campo de visao do jogador no eixo x
+		//contem o inicio do campo de visao do jogador no eixo x
+		int xStart = (int) Math.max(0, handler.getGameCamera().getxOffset() / Tile.TILEHEIGHT);
+		//contem o fim do campo de visao do jogador no eixo x
 		int xEnd = (int) Math.min(width, (handler.getGameCamera().getxOffset() + handler.getWidth()) / Tile.TILEWIDTH + 1);
 		int yStart = (int) Math.max(0, handler.getGameCamera().getyOffset() / Tile.TILEHEIGHT);
 		int yEnd = (int) Math.min(height, (handler.getGameCamera().getyOffset() + handler.getWidth()) / Tile.TILEHEIGHT + 1);
@@ -80,6 +82,10 @@ public class World {
 				tiles[x][y] = Utils.parseInt(tokens[(x + y * width) + 4]);
 			}
 		}
+	}
+	
+	public void installBomb() {
+		
 	}
 	
 	public int getWidth() {
