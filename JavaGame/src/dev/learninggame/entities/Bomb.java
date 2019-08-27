@@ -11,12 +11,12 @@ public class Bomb extends Entity{
 	
 	private Animation animBomb;
 	
-	public Bomb(Handler handler, float x, float y, int boundsX, int boundsY) {
+	public Bomb(Handler handler, float x, float y) {
 		super(handler, x, y, Tile.TILEWIDTH, Tile.TILEHEIGHT);
 		
 		//Posicao da bomba
-		bounds.x = boundsX;
-		bounds.y = boundsY;
+		bounds.x = (int)x;
+		bounds.y = (int)y;
 		//Largura e comprimento da hitbox
 		bounds.width = Tile.TILEWIDTH;
 		bounds.height = Tile.TILEHEIGHT;
@@ -28,7 +28,6 @@ public class Bomb extends Entity{
 	@Override
 	public void tick() {
 		animBomb.tick();
-		
 	}
 
 	@Override

@@ -76,6 +76,7 @@ public class Player extends Creature implements Runnable{
 			xMove = speed;
 		if(handler.getKeyManager().bomb)
 			installBomb();
+			
 		
 		/*else if(numero == 2) { 2 player
 			if(handler.getKeyManager().up2)
@@ -93,7 +94,7 @@ public class Player extends Creature implements Runnable{
 	}
 	
 	private void installBomb() {
-		 
+		 handler.getWorld().installBomb((float)x, (float)y);
 	}
 	
 	

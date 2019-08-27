@@ -54,7 +54,7 @@ public class Assets {
 		
 		putBomb = new BufferedImage[2];
 		putBomb[0] = bombSheet.crop(0, 0, 512, 512);
-		putBomb[0] = bombSheet.crop(0, 512, 512, 512);
+		putBomb[1] = bombSheet.crop(0, 512, 512, 512);
 		
 		player = manSheet.crop(wMan, hMan*2, wMan, hMan);
 		grass = sheet.crop(0, 0, w, h);

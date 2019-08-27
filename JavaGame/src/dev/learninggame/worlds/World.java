@@ -3,6 +3,7 @@ package dev.learninggame.worlds;
 import java.awt.Graphics;
 
 import dev.learninggame.Handler;
+import dev.learninggame.entities.Bomb;
 import dev.learninggame.entities.EntityManager;
 import dev.learninggame.entities.creatures.Player;
 import dev.learninggame.tiles.Tile;
@@ -84,8 +85,10 @@ public class World {
 		}
 	}
 	
-	public void installBomb() {
-		
+	public void installBomb(float x, float y) {
+		Bomb bomba = new Bomb(handler, (int)x, (int)y);
+		entityManager.addEntity(bomba);
+		System.out.println("Bomba plantada");
 	}
 	
 	public int getWidth() {
