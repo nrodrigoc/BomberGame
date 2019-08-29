@@ -11,6 +11,7 @@ import dev.learninggame.entities.Bomb;
 import dev.learninggame.entities.Entity;
 import dev.learninggame.gfx.Animation;
 import dev.learninggame.gfx.Assets;
+import dev.learninggame.tiles.Tile;
 
 public class Player extends Creature implements Runnable{
 	
@@ -116,10 +117,7 @@ public class Player extends Creature implements Runnable{
 		if(handler.getKeyManager().right)
 			xMove = speed;
 		if(handler.getKeyManager().bomb) {
-			if(tempoFinal - tempoInicio > 250) {
-				installBomb();
-				tempoInicio = tempoFinal;
-			}
+			installBomb();
 		}
 			
 		
@@ -138,10 +136,14 @@ public class Player extends Creature implements Runnable{
 		
 	}
 	
-	private void installBomb() {
-		handler.getWorld().installBomb((float)x, (float)y);
+	public void installBomb() {
+		if(!handler.getWorld().hasBomb(getCurrentTileX(), getCurrentTileY())) {
+			Bomb bomba = new Bomb(handler, (int)x, (int)y);
+			handler.getWorld().getEntityManager().addBomb(bomba);
+			System.out.println("Bomba plantada");
+			handler.getWorld().setCoordinates(getCurrentTileX(), getCurrentTileY(), true);
+		}
 	}
-	
 	
 	@Override
 	public void render(Graphics g) {
@@ -173,6 +175,22 @@ public class Player extends Creature implements Runnable{
 		this.nOfBombs = nOfBombs;
 	}
 	
+	private int getCurrentTileX() {
+		for(int i = 0; i < (handler.getHeight()/Tile.TILEHEIGHT) + (Tile.TILEHEIGHT*2); i++) {
+			if(x <= Tile.TILEHEIGHT*i) {
+				return i;
+			}
+		}
+		return 0;
+	}
 	
+	private int getCurrentTileY() {
+		for(int i = 0; i < handler.getHeight()/Tile.TILEHEIGHT + (Tile.TILEWIDTH*2); i++) {
+			if(y <= Tile.TILEHEIGHT*i) {
+				return i;
+			}
+		}
+		return 0;
+	}
 
 }

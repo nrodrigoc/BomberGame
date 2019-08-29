@@ -16,6 +16,8 @@ public class World {
 	private int width, height;
 	private int spawnX, spawnY;
 	private int[][] tiles;
+	//Coordenadas das Tiles para as bombas
+	private boolean[][] coordinates;
 	//Entities
 	private EntityManager entityManager;
 	
@@ -26,7 +28,6 @@ public class World {
 	public World(Handler handler, String path) {
 		this.handler = handler;
 		entityManager = new EntityManager(handler, new Player(handler, 100, 100));
-		
 		loadWorld(path);
 		
 		entityManager.getPlayer().setX(spawnX);
@@ -80,17 +81,13 @@ public class World {
 		spawnY = Utils.parseInt(tokens[3]);
 		
 		tiles = new int[width][height];
+		coordinates = new boolean[width][height];
 		for(int y = 0; y < height; y++){
 			for(int x = 0; x < width; x++){
 				tiles[x][y] = Utils.parseInt(tokens[(x + y * width) + 4]);
+				coordinates[x][y] = false;
 			}
 		}
-	}
-	
-	public void installBomb(float x, float y) {
-		Bomb bomba = new Bomb(handler, (int)x, (int)y);
-		entityManager.addBomb(bomba);
-		System.out.println("Bomba plantada");
 	}
 	
 	public int getWidth() {
@@ -99,6 +96,15 @@ public class World {
 	
 	public int getHeight() {
 		return height;
+	}
+
+	public boolean hasBomb(int x, int y) {
+		System.out.println(coordinates[x][y]);
+		return coordinates[x][y];
+	}
+
+	public void setCoordinates(int x, int y, boolean b) {
+		coordinates[x][y] = b;
 	}
 	
 	

@@ -52,7 +52,6 @@ public class Bomb extends Entity{
 	public void render(Graphics g) {
 		g.drawImage(animBomb.getCurrentFrame(), Tile.TILEWIDTH*getCurrentTileX(), 
 				Tile.TILEHEIGHT*getCurrentTileY(), Tile.TILEWIDTH, Tile.TILEHEIGHT, null);
-		
 	}
 
 	@Override
