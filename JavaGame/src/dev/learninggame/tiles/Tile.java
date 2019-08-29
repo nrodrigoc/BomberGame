@@ -14,6 +14,7 @@ public class Tile {
 	public static Tile sandTile = new SandTile(3);
 	public static Tile brickTile = new BrickTile(4);
 	
+	
 	//CLASS
 	public static final int TILEWIDTH = 50, TILEHEIGHT = 50; // Tamanho dos elementos do mapa
 	

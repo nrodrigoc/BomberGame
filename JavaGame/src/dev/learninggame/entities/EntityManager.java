@@ -11,11 +11,13 @@ public class EntityManager {
 	private Handler handler;
 	private Player player;
 	private ArrayList<Entity> entities;
+	private ArrayList<Bomb> bombs; 
 	
 	public EntityManager(Handler handler, Player player) {
 		this.handler = handler;
 		this.player = player;
 		entities = new ArrayList<>();
+		bombs = new ArrayList<>();
 		addEntity(player);
 	}
 	
@@ -24,16 +26,28 @@ public class EntityManager {
 			Entity e = entities.get(i);
 			e.tick();
 		}
+		for(int i = 0; i < bombs.size(); i++) {
+			Entity e = bombs.get(i);
+			e.tick();
+		}
 	}
 	
 	public void render(Graphics g) {
 		for(Entity e : entities) {
 			e.render(g);
 		}
+		for(Bomb b : bombs) {
+			b.render(g);
+		}
+		
 	}
 	
 	public void addEntity(Entity e) {
 		entities.add(e);
+	}
+	
+	public void addBomb(Bomb b) {
+		bombs.add(b);
 	}
 	
 	//GETTERS AND SETTERS
@@ -57,6 +71,10 @@ public class EntityManager {
 		return entities;
 	}
 
+	public ArrayList<Bomb> getBombs(){
+		return bombs;
+	}
+	
 	public void setEntities(ArrayList<Entity> entities) {
 		this.entities = entities;
 	}

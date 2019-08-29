@@ -4,6 +4,7 @@ import java.awt.Graphics;
 
 import dev.learninggame.Handler;
 import dev.learninggame.entities.Bomb;
+import dev.learninggame.entities.Entity;
 import dev.learninggame.entities.EntityManager;
 import dev.learninggame.entities.creatures.Player;
 import dev.learninggame.tiles.Tile;
@@ -37,9 +38,11 @@ public class World {
 	}
 	
 	public void render(Graphics g){
+		//for(Entity e : entityManager.getEntities()) 
 		//contem o inicio do campo de visao do jogador no eixo x
 		int xStart = (int) Math.max(0, handler.getGameCamera().getxOffset() / Tile.TILEHEIGHT);
 		//contem o fim do campo de visao do jogador no eixo x
+		
 		int xEnd = (int) Math.min(width, (handler.getGameCamera().getxOffset() + handler.getWidth()) / Tile.TILEWIDTH + 1);
 		int yStart = (int) Math.max(0, handler.getGameCamera().getyOffset() / Tile.TILEHEIGHT);
 		int yEnd = (int) Math.min(height, (handler.getGameCamera().getyOffset() + handler.getWidth()) / Tile.TILEHEIGHT + 1);
@@ -87,7 +90,7 @@ public class World {
 	
 	public void installBomb(float x, float y) {
 		Bomb bomba = new Bomb(handler, (int)x, (int)y);
-		entityManager.addEntity(bomba);
+		entityManager.addBomb(bomba);
 		System.out.println("Bomba plantada");
 	}
 	

@@ -94,7 +94,9 @@ public class Player extends Creature implements Runnable{
 	}
 	
 	private void installBomb() {
-		 handler.getWorld().installBomb((float)x, (float)y);
+		float bombPosX = (float)x + 15;
+		float bombPosY = (float)y + 25;
+		handler.getWorld().installBomb(bombPosX, bombPosY);
 	}
 	
 	
