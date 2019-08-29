@@ -32,8 +32,7 @@ public class Bomb extends Entity{
 
 	@Override
 	public void render(Graphics g) {
-		g.drawImage(animBomb.getCurrentFrame(), (int)(x - handler.getGameCamera().getxOffset()), 
-				(int)(y- handler.getGameCamera().getyOffset()), Tile.TILEWIDTH, Tile.TILEHEIGHT, null);
+		g.drawImage(animBomb.getCurrentFrame(), (int)(x), (int)(y), Tile.TILEWIDTH, Tile.TILEHEIGHT, null);
 		
 	}
 

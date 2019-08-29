@@ -38,20 +38,19 @@ public class World {
 	}
 	
 	public void render(Graphics g){
-		//for(Entity e : entityManager.getEntities()) 
+		/*//for(Entity e : entityManager.getEntities()) 
 		//contem o inicio do campo de visao do jogador no eixo x
-		int xStart = (int) Math.max(0, handler.getGameCamera().getxOffset() / Tile.TILEHEIGHT);
+		int xStart = 0;
 		//contem o fim do campo de visao do jogador no eixo x
 		
-		int xEnd = (int) Math.min(width, (handler.getGameCamera().getxOffset() + handler.getWidth()) / Tile.TILEWIDTH + 1);
+		int xEnd = (int) Math.min(width, (handler.getWidth()) / Tile.TILEWIDTH + 1);
 		int yStart = (int) Math.max(0, handler.getGameCamera().getyOffset() / Tile.TILEHEIGHT);
-		int yEnd = (int) Math.min(height, (handler.getGameCamera().getyOffset() + handler.getWidth()) / Tile.TILEHEIGHT + 1);
+		int yEnd = (int) Math.min(height, (handler.getWidth()) / Tile.TILEHEIGHT + 1);
+		*/
 		
-		
-		for(int y = yStart; y < yEnd; y++){
-			for(int x = xStart; x < xEnd; x++){
-				getTile(x, y).render(g, (int) (x * Tile.TILEWIDTH - handler.getGameCamera().getxOffset()),
-						(int) (y * Tile.TILEHEIGHT - handler.getGameCamera().getyOffset()));
+		for(int y = 0; y < handler.getHeight()/Tile.TILEHEIGHT; y++){
+			for(int x = 0; x < handler.getWidth()/Tile.TILEWIDTH; x++){
+				getTile(x, y).render(g, (int) (x * Tile.TILEWIDTH),(int) (y * Tile.TILEHEIGHT));
 			}
 		}
 		//Entities
