@@ -16,6 +16,7 @@ import dev.learninggame.tiles.Tile;
 public class Player extends Creature implements Runnable{
 	
 	//Atributos
+	private int maxBombs;
 	private int nOfBombs;
 	
 	//Animations
@@ -34,7 +35,7 @@ public class Player extends Creature implements Runnable{
 	public Player(Handler handler, float x, float y) {	
 		super(handler, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
 		
-		setnOfBombs(1);
+		maxBombs = 3;
 		
 		//ajuste da posicao da hitbox
 		bounds.x = 34;
@@ -137,11 +138,13 @@ public class Player extends Creature implements Runnable{
 	}
 	
 	public void installBomb() {
-		if(!handler.getWorld().hasBomb(getCurrentTileX(), getCurrentTileY())) {
+		if(!handler.getWorld().hasBomb(getCurrentTileX(), getCurrentTileY()) 
+				&& nOfBombs < maxBombs) {
 			Bomb bomba = new Bomb(handler, (int)x, (int)y);
 			handler.getWorld().getEntityManager().addBomb(bomba);
 			System.out.println("Bomba plantada");
 			handler.getWorld().setCoordinates(getCurrentTileX(), getCurrentTileY(), true);
+			nOfBombs++;
 		}
 	}
 	
@@ -171,10 +174,14 @@ public class Player extends Creature implements Runnable{
 		return nOfBombs;
 	}
 
-	public void setnOfBombs(int nOfBombs) {
-		this.nOfBombs = nOfBombs;
+	public void addnOfBombs() {
+		this.nOfBombs++;
 	}
 	
+	public int getMaxBombs() {
+		return maxBombs;
+	}
+
 	private int getCurrentTileX() {
 		for(int i = 0; i < (handler.getHeight()/Tile.TILEHEIGHT) + (Tile.TILEHEIGHT*2); i++) {
 			if(x <= Tile.TILEHEIGHT*i) {
