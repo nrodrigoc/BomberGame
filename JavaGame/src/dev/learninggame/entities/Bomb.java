@@ -15,8 +15,8 @@ public class Bomb extends Entity{
 		super(handler, x, y, Tile.TILEWIDTH, Tile.TILEHEIGHT);
 		
 		//Posicao da bomba
-		bounds.x = (int)x;
-		bounds.y = (int)y;
+		bounds.x = Tile.TILEWIDTH*getCurrentTileX();
+		bounds.y = Tile.TILEHEIGHT*getCurrentTileY();
 		//Largura e comprimento da hitbox
 		bounds.width = Tile.TILEWIDTH;
 		bounds.height = Tile.TILEHEIGHT;
@@ -24,7 +24,25 @@ public class Bomb extends Entity{
 		animBomb = new Animation(300, Assets.putBomb);
 		
 	}
-
+	
+	private int getCurrentTileX() {
+		for(int i = 0; i < (handler.getHeight()/Tile.TILEHEIGHT) + (Tile.TILEHEIGHT*2); i++) {
+			if(x <= Tile.TILEHEIGHT*i) {
+				return i;
+			}
+		}
+		return 0;
+	}
+	
+	private int getCurrentTileY() {
+		for(int i = 0; i < handler.getHeight()/Tile.TILEHEIGHT + (Tile.TILEWIDTH*2); i++) {
+			if(y <= Tile.TILEHEIGHT*i) {
+				return i;
+			}
+		}
+		return 0;
+	}
+	
 	@Override
 	public void tick() {
 		animBomb.tick();
@@ -32,7 +50,13 @@ public class Bomb extends Entity{
 
 	@Override
 	public void render(Graphics g) {
-		g.drawImage(animBomb.getCurrentFrame(), (int)(x), (int)(y), Tile.TILEWIDTH, Tile.TILEHEIGHT, null);
+		g.drawImage(animBomb.getCurrentFrame(), Tile.TILEWIDTH*getCurrentTileX(), 
+				Tile.TILEHEIGHT*getCurrentTileY(), Tile.TILEWIDTH, Tile.TILEHEIGHT, null);
+		
+	}
+
+	@Override
+	protected void die() {
 		
 	}
 

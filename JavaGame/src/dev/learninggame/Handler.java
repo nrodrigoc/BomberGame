@@ -20,9 +20,9 @@ public class Handler {
 		this.game = game; 
 	}
 
-	public GameCamera getGameCamera() {
+	/*public GameCamera getGameCamera() {
 		return game.getGameCamera();
-	}
+	}*/
 	
 	public KeyManager getKeyManager() {
 		return game.getKeyManager();

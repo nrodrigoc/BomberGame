@@ -34,7 +34,7 @@ public class Game implements Runnable {
 	private MouseManager mouseManager;
 	
 	//Camera
-	private GameCamera gameCamera;
+	//private GameCamera gameCamera;
 	
 	//Handler
 	private Handler handler;
@@ -58,7 +58,7 @@ public class Game implements Runnable {
 		Assets.init();
 		
 		handler = new Handler(this);
-		gameCamera = new GameCamera(handler, 0, 0);
+		//gameCamera = new GameCamera(handler, 0, 0);
 				
 		gameState = new GameState(handler);
 		menuState = new MenuState(handler);
@@ -142,9 +142,9 @@ public class Game implements Runnable {
 		return mouseManager;
 	}
 	
-	public GameCamera getGameCamera(){
+	/*public GameCamera getGameCamera(){
 		return gameCamera;
-	}
+	}*/
 	
 	public int getWidth(){
 		return width;

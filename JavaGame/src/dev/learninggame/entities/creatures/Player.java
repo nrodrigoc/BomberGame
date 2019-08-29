@@ -2,26 +2,28 @@ package dev.learninggame.entities.creatures;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import dev.learninggame.Handler;
 import dev.learninggame.entities.Bomb;
+import dev.learninggame.entities.Entity;
 import dev.learninggame.gfx.Animation;
 import dev.learninggame.gfx.Assets;
 
 public class Player extends Creature implements Runnable{
 	
 	//Atributos
-	private Bomb bomb;
 	private int nOfBombs;
-	
 	
 	//Animations
 	private Animation animUp;
 	private Animation animDown;
 	private Animation animLeft;
 	private Animation animRight;
+	private long tempoInicio;
+	private long tempoFinal;
 	
 	@Override
 	public void run() {
@@ -31,21 +33,24 @@ public class Player extends Creature implements Runnable{
 	public Player(Handler handler, float x, float y) {	
 		super(handler, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
 		
-		bomb = null;
-		nOfBombs = 1;
+		setnOfBombs(1);
 		
 		//ajuste da posicao da hitbox
-		bounds.x = 29;
-		bounds.y = 40;
+		bounds.x = 34;
+		bounds.y = 38;
 		//largura e comprimento da hitbox
-		bounds.width = 22;
-		bounds.height = 35;
+		bounds.width = 30;
+		bounds.height = 45;
 		
 		//Animations
 		animUp = new Animation(180, Assets.player_up);
 		animDown = new Animation(180, Assets.player_down);
 		animLeft = new Animation(150, Assets.player_left);
 		animRight = new Animation(150, Assets.player_right);
+		
+		//Contagem do tempo
+		tempoInicio = 0;
+		tempoFinal = System.currentTimeMillis();
 	}
 
 	@Override
@@ -56,10 +61,46 @@ public class Player extends Creature implements Runnable{
 		animRight.tick();
 		animLeft.tick();
 		
+		//Tempo
+		tempoFinal = System.currentTimeMillis();
+		
 		//Movement
 		getInput();
 		move();
-		handler.getGameCamera().centerOnEntity(this);
+		//handler.getGameCamera().centerOnEntity(this);
+		//Attack
+		checkAttacks();
+		
+	}
+	
+	//Melee Attacks
+	private void checkAttacks() {
+		Rectangle cb = getCollisionBounds(0, 0);
+		Rectangle ar = new Rectangle();
+		int arSize = 20;
+		ar.width = arSize;
+		ar.height = arSize;
+		
+		if(handler.getKeyManager().bomb) {
+			ar.x = cb.x + cb.width / 2 - arSize / 2;
+			ar.y = cb.y - arSize;
+		}else
+			return;
+		
+		for(Entity e : handler.getWorld().getEntityManager().getEntities()) {
+			if(e.equals(this)) 
+				continue;
+			if(e.getCollisionBounds(0, 0).intersects(ar)) {
+				e.hurt(1);
+				return;
+			}
+			
+		}
+		
+	}
+	
+	public void die() {
+		System.out.println("U lose");
 	}
 	
 	private void getInput() {
@@ -74,8 +115,12 @@ public class Player extends Creature implements Runnable{
 			xMove = -speed;
 		if(handler.getKeyManager().right)
 			xMove = speed;
-		if(handler.getKeyManager().bomb)
-			installBomb();
+		if(handler.getKeyManager().bomb) {
+			if(tempoFinal - tempoInicio > 250) {
+				installBomb();
+				tempoInicio = tempoFinal;
+			}
+		}
 			
 		
 		/*else if(numero == 2) { 2 player
@@ -94,9 +139,7 @@ public class Player extends Creature implements Runnable{
 	}
 	
 	private void installBomb() {
-		float bombPosX = (float)x + 15;
-		float bombPosY = (float)y + 25;
-		handler.getWorld().installBomb(bombPosX, bombPosY);
+		handler.getWorld().installBomb((float)x, (float)y);
 	}
 	
 	
@@ -120,6 +163,14 @@ public class Player extends Creature implements Runnable{
 		if(yMove < 0)
 			return animUp.getCurrentFrame();
 		return Assets.player;
+	}
+
+	public int getnOfBombs() {
+		return nOfBombs;
+	}
+
+	public void setnOfBombs(int nOfBombs) {
+		this.nOfBombs = nOfBombs;
 	}
 	
 	

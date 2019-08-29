@@ -22,24 +22,30 @@ public class EntityManager {
 	}
 	
 	public void tick() {
-		for(int i = 0; i < entities.size(); i++) {
-			Entity e = entities.get(i);
-			e.tick();
-		}
 		for(int i = 0; i < bombs.size(); i++) {
 			Entity e = bombs.get(i);
 			e.tick();
+			if(!e.isActive()) {
+				entities.remove(e);
+			}
 		}
+		for(int i = 0; i < entities.size(); i++) {
+			Entity e = entities.get(i);
+			e.tick();
+			if(!e.isActive()) {
+				entities.remove(e);
+			}
+		}
+		
 	}
 	
 	public void render(Graphics g) {
-		for(Entity e : entities) {
-			e.render(g);
-		}
 		for(Bomb b : bombs) {
 			b.render(g);
 		}
-		
+		for(Entity e : entities) {
+			e.render(g);
+		}
 	}
 	
 	public void addEntity(Entity e) {
