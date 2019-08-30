@@ -35,14 +35,14 @@ public class Player extends Creature implements Runnable{
 	public Player(Handler handler, float x, float y) {	
 		super(handler, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
 		
-		maxBombs = 3;
+		maxBombs = 10;
 		
 		//ajuste da posicao da hitbox
 		bounds.x = 34;
 		bounds.y = 38;
 		//largura e comprimento da hitbox
 		bounds.width = 30;
-		bounds.height = 45;
+		bounds.height = 35;
 		
 		//Animations
 		animUp = new Animation(180, Assets.player_up);
@@ -118,7 +118,10 @@ public class Player extends Creature implements Runnable{
 		if(handler.getKeyManager().right)
 			xMove = speed;
 		if(handler.getKeyManager().bomb) {
-			installBomb();
+			if(tempoFinal - tempoInicio > 200) {
+				installBomb();
+				tempoInicio = tempoFinal;
+			}
 		}
 			
 		
@@ -140,7 +143,7 @@ public class Player extends Creature implements Runnable{
 	public void installBomb() {
 		if(!handler.getWorld().hasBomb(getCurrentTileX(), getCurrentTileY()) 
 				&& nOfBombs < maxBombs) {
-			Bomb bomba = new Bomb(handler, (int)x, (int)y);
+			Bomb bomba = new Bomb(handler, (int)x, (int)y+15);
 			handler.getWorld().getEntityManager().addBomb(bomba);
 			System.out.println("Bomba plantada");
 			handler.getWorld().setCoordinates(getCurrentTileX(), getCurrentTileY(), true);
@@ -154,8 +157,7 @@ public class Player extends Creature implements Runnable{
 		g.drawImage(getCurrentAnimation(), (int)(x), (int)(y), width, height, null);
 		
 		/*g.setColor(Color.red); // Testar hit box
-		g.fillRect((int) (x + bounds.x - handler.getGameCamera().getxOffset()), 
-				(int) (y + bounds.y - handler.getGameCamera().getyOffset()), bounds.width, bounds.height);*/
+		g.fillRect((int) (x + bounds.x), (int)(y + bounds.y), bounds.width, bounds.height);*/
 	}
 
 	private BufferedImage getCurrentAnimation() {
