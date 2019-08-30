@@ -37,8 +37,6 @@ public class Bomb extends Entity{
 	}
 
 	@Override
-	protected void die() {
-		
-	}
+	protected void die() {}
 
 }
