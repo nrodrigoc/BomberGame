@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 
 import dev.learninggame.Handler;
+import dev.learninggame.tiles.Tile;
 
 /**
  * 
@@ -101,5 +102,27 @@ public abstract class Entity {
 
 	public Rectangle getCollisionBounds(float xOffset, float yOffset) {
 		return new Rectangle((int)(x + bounds.x + xOffset), (int)(y + bounds.y + yOffset), bounds.width, bounds.height);
+	}
+	
+	/* @author Nathan Rodrigo
+	 * @return A coordenada X do Mundo onde se encontra a Creature*/
+	protected int getCurrentTileX() {
+		for(int i = 0; i < (handler.getHeight()/Tile.TILEHEIGHT) + (Tile.TILEHEIGHT*2); i++) {
+			if(x <= Tile.TILEHEIGHT*i) {
+				return i;
+			}
+		}
+		return 0;
+	}
+	
+	/* @author Nathan Rodrigo
+	 * @return A coordenada Y do Mundo onde se encontra a Creature*/
+	protected int getCurrentTileY() {
+		for(int i = 0; i < handler.getHeight()/Tile.TILEHEIGHT + (Tile.TILEWIDTH*2); i++) {
+			if(y <= Tile.TILEHEIGHT*i) {
+				return i;
+			}
+		}
+		return 0;
 	}
 }

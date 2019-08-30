@@ -25,24 +25,6 @@ public class Bomb extends Entity{
 		
 	}
 	
-	private int getCurrentTileX() {
-		for(int i = 0; i < (handler.getHeight()/Tile.TILEHEIGHT) + (Tile.TILEHEIGHT*2); i++) {
-			if(x <= Tile.TILEHEIGHT*i) {
-				return i;
-			}
-		}
-		return 0;
-	}
-	
-	private int getCurrentTileY() {
-		for(int i = 0; i < handler.getHeight()/Tile.TILEHEIGHT + (Tile.TILEWIDTH*2); i++) {
-			if(y <= Tile.TILEHEIGHT*i) {
-				return i;
-			}
-		}
-		return 0;
-	}
-	
 	@Override
 	public void tick() {
 		animBomb.tick();

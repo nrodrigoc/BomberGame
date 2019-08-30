@@ -55,7 +55,8 @@ public abstract class Creature extends Entity{
 			int ty = (int) (y + yMove + bounds.y) / Tile.TILEHEIGHT;
 		
 			if(!collisionWithTile((int) ((x + bounds.x) / Tile.TILEWIDTH), ty) &&
-					!collisionWithTile((int) ((x + bounds.x + bounds.width) / Tile.TILEWIDTH), ty)) {
+					!collisionWithTile((int) ((x + bounds.x + bounds.width) / Tile.TILEWIDTH), ty) &&
+					!handler.getWorld().hasBomb(getCurrentTileX(), ty)) {
 				y += yMove;
 			}else {
 				y = ty * Tile.TILEWIDTH + Tile.TILEWIDTH - bounds.y;
@@ -65,7 +66,8 @@ public abstract class Creature extends Entity{
 			int ty = (int) (y + yMove + bounds.y + bounds.height) / Tile.TILEHEIGHT;
 			
 			if(!collisionWithTile((int) ((x + bounds.x) / Tile.TILEWIDTH), ty) &&
-					!collisionWithTile((int) ((x + bounds.x + bounds.width) / Tile.TILEWIDTH), ty)) {
+					!collisionWithTile((int) ((x + bounds.x + bounds.width) / Tile.TILEWIDTH), ty) &&
+					!handler.getWorld().hasBomb(getCurrentTileX(), ty)) {
 				y += yMove;
 			}else {
 				y = ty * Tile.TILEWIDTH - bounds.height - bounds.y - 1;
@@ -109,7 +111,6 @@ public abstract class Creature extends Entity{
 	public void setSpeed(float speed) {
 		this.speed = speed;
 	}
-	
 	
 	
 }
