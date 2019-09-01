@@ -107,11 +107,11 @@ public class World {
 		return false;
 	}
 	
-	public Bomb getBomb(int x, int y) {
-		for(Bomb b : entityManager.getBombs()) { 
-			int bombX = (int)b.getX();
-			int bombY = (int)b.getY();
-			if(x == bombX && y == bombY) {
+	public Bomb getBomb(int currentPlayerX, int currentPlayerY) {
+		for(Bomb b : entityManager.getBombs()) {
+			int currentBombX = (int)b.getCurrentTileX(b.getX());
+			int currentBombY = (int)b.getCurrentTileX(b.getY());
+			if(currentPlayerX == currentBombX && currentPlayerY == currentBombY) {
 				return b;
 			}
 		}

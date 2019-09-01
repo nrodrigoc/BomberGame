@@ -39,7 +39,7 @@ public abstract class Creature extends Entity{
 		    
 		    //Verifica se a hitbox da criatura esta em contato com algo solido
 		    if(!collisionWithTile(tx, (int) (y + bounds.y) / Tile.TILEHEIGHT) &&
-		    		!collisionWithTile(tx, (int) (y + bounds.y + bounds.height) / Tile.TILEHEIGHT)) {
+		    		!collisionWithTile(tx, (int) (y + bounds.y + bounds.height) / Tile.TILEHEIGHT) && collisionWithBomb(RIGHT)) {
 		    	x += xMove;
 		    }else {
 				x = tx * Tile.TILEWIDTH - bounds.x - bounds.width - 1;
@@ -48,7 +48,7 @@ public abstract class Creature extends Entity{
 		}else if(xMove < 0) {//Moving Left
 			int tx = (int) (x + xMove + bounds.x) / Tile.TILEWIDTH;
 		    if(!collisionWithTile(tx, (int) (y + bounds.y) / Tile.TILEHEIGHT) &&
-		    		!collisionWithTile(tx, (int) (y + bounds.y + bounds.height) / Tile.TILEHEIGHT)) {
+		    		!collisionWithTile(tx, (int) (y + bounds.y + bounds.height) / Tile.TILEHEIGHT) && collisionWithBomb(LEFT)) {
 		    	x += xMove;
 		    }else {
 				x = tx * Tile.TILEWIDTH + Tile.TILEWIDTH - bounds.x;
@@ -61,8 +61,7 @@ public abstract class Creature extends Entity{
 			int ty = (int) (y + yMove + bounds.y) / Tile.TILEHEIGHT;
 		
 			if(!collisionWithTile((int) ((x + bounds.x) / Tile.TILEWIDTH), ty) &&
-					!collisionWithTile((int) ((x + bounds.x + bounds.width) / Tile.TILEWIDTH), ty)){
-				if(!collisionWithBomb((int)x, (int)y, DOWN))
+					!collisionWithTile((int) ((x + bounds.x + bounds.width) / Tile.TILEWIDTH), ty) && collisionWithBomb(UP)){
 					y += yMove;
 			}else {
 				y = ty * Tile.TILEWIDTH + Tile.TILEWIDTH - bounds.y;
@@ -72,8 +71,7 @@ public abstract class Creature extends Entity{
 			int ty = (int) (y + yMove + bounds.y + bounds.height) / Tile.TILEHEIGHT;
 			
 			if(!collisionWithTile((int) ((x + bounds.x) / Tile.TILEWIDTH), ty) &&
-					!collisionWithTile((int) ((x + bounds.x + bounds.width) / Tile.TILEWIDTH), ty)) {
-				if(!collisionWithBomb((int)x, (int)y, DOWN))
+					!collisionWithTile((int) ((x + bounds.x + bounds.width) / Tile.TILEWIDTH), ty) && collisionWithBomb(DOWN)) {
 					y += yMove;
 			}else {
 				y = ty * Tile.TILEWIDTH - bounds.height - bounds.y - 1;
@@ -85,17 +83,39 @@ public abstract class Creature extends Entity{
 		return handler.getWorld().getTile(x, y).isSolid();
 	}
 	
-	protected boolean collisionWithBomb(int x, int y, int direction){
-		/*Bomb bomb = handler.getWorld().getBomb(x, y);
-		//int boundsBombX = (int)bomb.getCurrentTileX() + bomb.getWidth() ;
-		if(bomb != null) {
+	protected boolean collisionWithBomb(int direction){
+		Bomb bomb = new Bomb(handler, x, y);
+		if(direction == DOWN &&
+				handler.getWorld().hasBomb(getCurrentTileX(x), getCurrentTileY(y+26))) {
+			
+			bomb = handler.getWorld().getBomb(getCurrentTileX(x), getCurrentTileY(y+26));
 			int boundsBombY = (int)bomb.getBoundsY();
-			if(direction == DOWN && this.y < boundsBombY)
+			if(this.y < boundsBombY - Tile.TILEHEIGHT)
 				return false;
-			if(direction == UP && this.y > boundsBombY)
+			
+		}else if(direction == UP &&
+				handler.getWorld().hasBomb(getCurrentTileX(x), getCurrentTileY(y-12))) {
+			
+			bomb = handler.getWorld().getBomb(getCurrentTileX(x), getCurrentTileY(y-12));
+			int boundsBombY = (int)bomb.getBoundsY();
+			if(this.y > boundsBombY)
 				return false;
-		}*/
-		return false;
+		}else if(direction == RIGHT &&
+				handler.getWorld().hasBomb(getCurrentTileX(x+16), getCurrentTileY(y))) {
+			
+			bomb = handler.getWorld().getBomb(getCurrentTileX(x+16), getCurrentTileY(y));
+			int boundsBombX = (int)bomb.getBoundsX();
+			if(this.x < boundsBombX - Tile.TILEWIDTH)
+				return false;
+		}else if(direction == LEFT &&
+				handler.getWorld().hasBomb(getCurrentTileX(x-16), getCurrentTileY(y))) {
+			
+			bomb = handler.getWorld().getBomb(getCurrentTileX(x-16), getCurrentTileY(y));
+			int boundsBombX = (int)bomb.getBoundsX();
+			if(this.x > boundsBombX)
+				return false;
+		}
+			return true;
 	}
 	
 	//GETTERS AND SETTERS

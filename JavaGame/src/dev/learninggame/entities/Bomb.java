@@ -43,8 +43,9 @@ public class Bomb extends Entity{
 		g.drawImage(animBomb.getCurrentFrame(), Tile.TILEWIDTH*getCurrentTileX(x), 
 				Tile.TILEHEIGHT*getCurrentTileY(y), Tile.TILEWIDTH, Tile.TILEHEIGHT, null);
 		
-		g.setColor(Color.red); // Testar hit box
-		g.fillRect((int) (bounds.x), (int)(bounds.y), bounds.width, bounds.height);
+		//Teste para hitbox bomba
+		/*g.setColor(Color.red); // Testar hit box
+		g.fillRect((int) (bounds.x), (int)(bounds.y), bounds.width, bounds.height);*/
 	}
 	
 	public int getBoundsX() {
