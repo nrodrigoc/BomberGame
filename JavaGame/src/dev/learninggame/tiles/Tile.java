@@ -20,11 +20,12 @@ public class Tile {
 	
 	protected BufferedImage texture;
 	protected final int id;
+	protected boolean solid;
 	
 	public Tile(BufferedImage texture,int id) {
 		this.texture = texture;
 		this.id = id;
-	
+		solid = true;
 		tiles[id] = this;
 	}
 	
@@ -38,12 +39,15 @@ public class Tile {
 	}
 	
 	public boolean isSolid() {
-		return true;
+		return solid;
 	}
 	
 	public int getId() {
 		return id;
 	}
 	
+	protected void setSolidity(boolean b) {
+		this.solid = b;
+	}
 	
 }

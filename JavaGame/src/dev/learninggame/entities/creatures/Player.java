@@ -141,12 +141,11 @@ public class Player extends Creature implements Runnable{
 	}
 	
 	public void installBomb() {
-		if(!handler.getWorld().hasBomb(getCurrentTileX(), getCurrentTileY()) 
+		if(!handler.getWorld().hasBomb(getCurrentTileX(x), getCurrentTileY(y+15)) 
 				&& nOfBombs < maxBombs) {
 			Bomb bomba = new Bomb(handler, (int)x, (int)y+15);
 			handler.getWorld().getEntityManager().addBomb(bomba);
 			System.out.println("Bomba plantada");
-			handler.getWorld().setCoordinates(getCurrentTileX(), getCurrentTileY(), true);
 			nOfBombs++;
 		}
 	}
@@ -170,7 +169,7 @@ public class Player extends Creature implements Runnable{
 		if(yMove < 0)
 			return animUp.getCurrentFrame();
 		return Assets.player;
-	}
+	} 
 
 	public int getnOfBombs() {
 		return nOfBombs;

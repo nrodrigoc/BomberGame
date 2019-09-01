@@ -15,16 +15,12 @@ public class World {
 	private Handler handler;
 	private int width, height;
 	private int spawnX, spawnY;
+	//Coordenadas das tiles
 	private int[][] tiles;
-	//Coordenadas das Tiles para as bombas
-	private boolean[][] coordinates;
 	//Entities
 	private EntityManager entityManager;
+	//ID da ultima bomba do arrayList
 	
-	public EntityManager getEntityManager() {
-		return entityManager;
-	}
-
 	public World(Handler handler, String path) {
 		this.handler = handler;
 		entityManager = new EntityManager(handler, new Player(handler, 100, 100));
@@ -81,13 +77,15 @@ public class World {
 		spawnY = Utils.parseInt(tokens[3]);
 		
 		tiles = new int[width][height];
-		coordinates = new boolean[width][height];
 		for(int y = 0; y < height; y++){
 			for(int x = 0; x < width; x++){
 				tiles[x][y] = Utils.parseInt(tokens[(x + y * width) + 4]);
-				coordinates[x][y] = false;
 			}
 		}
+	}
+	
+	public EntityManager getEntityManager() {
+		return entityManager;
 	}
 	
 	public int getWidth() {
@@ -97,16 +95,27 @@ public class World {
 	public int getHeight() {
 		return height;
 	}
-
-	public boolean hasBomb(int x, int y) {
-		System.out.println(coordinates[x][y]);
-		return coordinates[x][y];
-	}
-
-	public void setCoordinates(int x, int y, boolean b) {
-		coordinates[x][y] = b;
+	
+	public boolean hasBomb(int currentPlayerX, int currentPlayerY) {
+		for(Bomb b : entityManager.getBombs()) {
+			int currentBombX = (int)b.getCurrentTileX(b.getX());
+			int currentBombY = (int)b.getCurrentTileX(b.getY());
+			if(currentPlayerX == currentBombX && currentPlayerY == currentBombY) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
-	
+	public Bomb getBomb(int x, int y) {
+		for(Bomb b : entityManager.getBombs()) { 
+			int bombX = (int)b.getX();
+			int bombY = (int)b.getY();
+			if(x == bombX && y == bombY) {
+				return b;
+			}
+		}
+		return null;
+	}
 	
 }

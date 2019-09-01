@@ -1,11 +1,17 @@
 package dev.learninggame.entities.creatures;
 
 import dev.learninggame.Handler;
+import dev.learninggame.entities.Bomb;
 import dev.learninggame.entities.Entity;
 import dev.learninggame.tiles.Tile;
 
 public abstract class Creature extends Entity{
-
+	
+	public static final int UP = 55;
+	public static final int DOWN = 56;
+	public static final int LEFT = 57;
+	public static final int RIGHT = 58;
+			
 	public static final float DEFAULT_SPEED = 3.f;
 	//Tamanho em pixels das criaturas
 	public static final int DEFAULT_CREATURE_WIDTH = 100,
@@ -55,9 +61,9 @@ public abstract class Creature extends Entity{
 			int ty = (int) (y + yMove + bounds.y) / Tile.TILEHEIGHT;
 		
 			if(!collisionWithTile((int) ((x + bounds.x) / Tile.TILEWIDTH), ty) &&
-					!collisionWithTile((int) ((x + bounds.x + bounds.width) / Tile.TILEWIDTH), ty) &&
-					!handler.getWorld().hasBomb(getCurrentTileX(), ty)) {
-				y += yMove;
+					!collisionWithTile((int) ((x + bounds.x + bounds.width) / Tile.TILEWIDTH), ty)){
+				if(!collisionWithBomb((int)x, (int)y, DOWN))
+					y += yMove;
 			}else {
 				y = ty * Tile.TILEWIDTH + Tile.TILEWIDTH - bounds.y;
 			}
@@ -66,9 +72,9 @@ public abstract class Creature extends Entity{
 			int ty = (int) (y + yMove + bounds.y + bounds.height) / Tile.TILEHEIGHT;
 			
 			if(!collisionWithTile((int) ((x + bounds.x) / Tile.TILEWIDTH), ty) &&
-					!collisionWithTile((int) ((x + bounds.x + bounds.width) / Tile.TILEWIDTH), ty) &&
-					!handler.getWorld().hasBomb(getCurrentTileX(), ty)) {
-				y += yMove;
+					!collisionWithTile((int) ((x + bounds.x + bounds.width) / Tile.TILEWIDTH), ty)) {
+				if(!collisionWithBomb((int)x, (int)y, DOWN))
+					y += yMove;
 			}else {
 				y = ty * Tile.TILEWIDTH - bounds.height - bounds.y - 1;
 			}
@@ -78,7 +84,20 @@ public abstract class Creature extends Entity{
 	protected boolean collisionWithTile(int x, int y) {
 		return handler.getWorld().getTile(x, y).isSolid();
 	}
-
+	
+	protected boolean collisionWithBomb(int x, int y, int direction){
+		/*Bomb bomb = handler.getWorld().getBomb(x, y);
+		//int boundsBombX = (int)bomb.getCurrentTileX() + bomb.getWidth() ;
+		if(bomb != null) {
+			int boundsBombY = (int)bomb.getBoundsY();
+			if(direction == DOWN && this.y < boundsBombY)
+				return false;
+			if(direction == UP && this.y > boundsBombY)
+				return false;
+		}*/
+		return false;
+	}
+	
 	//GETTERS AND SETTERS
 	public float getxMove() {
 		return xMove;
@@ -111,6 +130,5 @@ public abstract class Creature extends Entity{
 	public void setSpeed(float speed) {
 		this.speed = speed;
 	}
-	
 	
 }

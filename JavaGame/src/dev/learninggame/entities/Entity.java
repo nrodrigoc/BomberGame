@@ -106,7 +106,7 @@ public abstract class Entity {
 	
 	/* @author Nathan Rodrigo
 	 * @return A coordenada X do Mundo onde se encontra a Creature*/
-	protected int getCurrentTileX() {
+	public int getCurrentTileX(float x) {
 		for(int i = 0; i < (handler.getHeight()/Tile.TILEHEIGHT) + (Tile.TILEHEIGHT*2); i++) {
 			if(x <= Tile.TILEHEIGHT*i) {
 				return i;
@@ -117,7 +117,7 @@ public abstract class Entity {
 	
 	/* @author Nathan Rodrigo
 	 * @return A coordenada Y do Mundo onde se encontra a Creature*/
-	protected int getCurrentTileY() {
+	public int getCurrentTileY(float y) {
 		for(int i = 0; i < handler.getHeight()/Tile.TILEHEIGHT + (Tile.TILEWIDTH*2); i++) {
 			if(y <= Tile.TILEHEIGHT*i) {
 				return i;

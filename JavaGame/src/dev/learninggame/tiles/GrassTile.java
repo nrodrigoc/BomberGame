@@ -6,10 +6,7 @@ public class GrassTile extends Tile{
 	
 	public GrassTile(int id) {
 		super(Assets.grass, id);
+		setSolidity(false);
 	}
 	
-	@Override
-	public boolean isSolid() {
-		return false;
-	}
 }
