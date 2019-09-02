@@ -9,7 +9,7 @@ import dev.learninggame.worlds.World;
  * 
  * @author nrodrigo
  * 	
- */
+ */ 
 public class Handler {
 	
 	private Game game;

@@ -83,6 +83,11 @@ public abstract class Creature extends Entity{
 		return handler.getWorld().getTile(x, y).isSolid();
 	}
 	
+	/*
+	 * @author Nathan Rodrigo
+	 * @param direction direcao para onde o personagem vai andar
+	 * @return false se o player pode seguir em frente
+	 */
 	protected boolean collisionWithBomb(int direction){
 		Bomb bomb = new Bomb(handler, x, y);
 		if(direction == DOWN &&

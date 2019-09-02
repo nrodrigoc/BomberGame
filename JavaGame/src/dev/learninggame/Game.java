@@ -39,7 +39,7 @@ public class Game implements Runnable {
 	//Handler
 	private Handler handler;
 	
-	public Game(String title, int width, int height){
+	public Game(String title, int width, int height){ 
 		this.width = width;
 		this.height = height;
 		this.title = title;
