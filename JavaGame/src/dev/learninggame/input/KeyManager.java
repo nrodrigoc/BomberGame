@@ -7,7 +7,7 @@ public class KeyManager implements KeyListener{
 
 	private boolean[] keys;
 	public boolean up, down, right, left, bomb;
-	//public boolean up2, down2, right2, left2;
+	public boolean up2, down2, right2, left2;
 	
 	public KeyManager() {
 		keys = new boolean[256];
@@ -20,10 +20,11 @@ public class KeyManager implements KeyListener{
 		right = keys[KeyEvent.VK_D];
 		bomb = keys[KeyEvent.VK_SPACE];
 		
-		/*up2 = keys[KeyEvent.VK_UP];
+		up2 = keys[KeyEvent.VK_UP];
 		down2 = keys[KeyEvent.VK_DOWN];
 		left2 = keys[KeyEvent.VK_LEFT];
-		right2 = keys[KeyEvent.VK_RIGHT];*/
+		right2 = keys[KeyEvent.VK_RIGHT];
+		
 	}
 	
 	@Override//Metodo chamado sempre que o user aperta uma tecla
