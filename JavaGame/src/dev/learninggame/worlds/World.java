@@ -15,6 +15,7 @@ public class World {
 	private Handler handler;
 	private int width, height;
 	private int spawnX, spawnY;
+	private int spawnX2, spawnY2;
 	//Coordenadas das tiles
 	private int[][] tiles;
 	//Entities
@@ -28,6 +29,9 @@ public class World {
 		
 		entityManager.getPlayer().setX(spawnX);
 		entityManager.getPlayer().setY(spawnY);
+		
+		//entityManager.getPlayer().setX(spawnX2);
+		//entityManager.getPlayer().setY(spawnY2);
 	}
 	
 	public void tick() {
