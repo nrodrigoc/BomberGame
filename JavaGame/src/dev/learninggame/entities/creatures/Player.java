@@ -147,7 +147,7 @@ public class Player extends Creature implements Runnable{
 	public void installBomb() {
 		if(!handler.getWorld().hasBomb(getCurrentTileX(x), getCurrentTileY(y+15)) 
 				&& nOfBombs < maxBombs) {
-			Bomb bomba = new Bomb(handler, (int)x, (int)y+15);
+			Bomb bomba = new Bomb(handler, (int)x, (int)y);
 			handler.getWorld().getEntityManager().addBomb(bomba);
 			System.out.println("Bomba plantada");
 			nOfBombs++;
