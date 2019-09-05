@@ -8,7 +8,7 @@ import dev.learninggame.Handler;
 import dev.learninggame.entities.Bomb;
 import dev.learninggame.gfx.Animation;
 import dev.learninggame.gfx.Assets;
-/*
+
 public class PlayerGirl extends Creature{
 	//Atributos
 	private int maxBombs;
@@ -36,8 +36,6 @@ public class PlayerGirl extends Creature{
 		animUp = new Animation(100, Assets.playerg_up);
 		animRight = new Animation(100, Assets.playerg_right);
 		animLeft = new Animation(100, Assets.playerg_left);
-		
-		
 		
 
 	}
@@ -106,10 +104,9 @@ public class PlayerGirl extends Creature{
 				&& nOfBombs < maxBombs) {
 			Bomb bomba = new Bomb(handler, (int)x, (int)y+15);
 			handler.getWorld().getEntityManager().addBomb(bomba);
-			//System.out.println("Bomba plantada");
+			System.out.println("Bomba plantada");
 			nOfBombs++;
 		}
 	}
  
 }
-*/

@@ -85,4 +85,7 @@ public class EntityManager {
 		this.entities = entities;
 	}
 	
+	public void removeBomb(int id) {
+		bombs.remove(id);
+	}
 }

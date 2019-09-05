@@ -24,18 +24,12 @@ public class Player extends Creature implements Runnable{
 	private Animation animDown;
 	private Animation animLeft;
 	private Animation animRight;
-	
-	private Animation animUp2;
-	private Animation animDown2;
-	private Animation animLeft2;
-	private Animation animRight2;
-	
 	private long tempoInicio;
 	private long tempoFinal;
 	
 	@Override
 	public void run() {
-		tick();
+		System.out.println("player iniciado");
 	}
 	
 	public Player(Handler handler, float x, float y) {	
@@ -56,11 +50,6 @@ public class Player extends Creature implements Runnable{
 		animLeft = new Animation(150, Assets.player_left);
 		animRight = new Animation(150, Assets.player_right);
 		
-		animDown2 = new Animation(150, Assets.playerg_down);
-		animUp2 = new Animation(150, Assets.playerg_up);
-		animRight2 = new Animation(150, Assets.playerg_right);
-		animLeft2 = new Animation(150, Assets.playerg_left);
-		
 		//Contagem do tempo
 		tempoInicio = 0;
 		tempoFinal = System.currentTimeMillis();
@@ -74,17 +63,11 @@ public class Player extends Creature implements Runnable{
 		animRight.tick();
 		animLeft.tick();
 		
-		animUp2.tick();
-		animDown2.tick();
-		animRight2.tick();
-		animLeft2.tick();
-		
 		//Tempo
 		tempoFinal = System.currentTimeMillis();
 		
 		//Movement
 		getInput();
-		getInput2();
 		move();
 		//handler.getGameCamera().centerOnEntity(this);
 		//Attack
@@ -141,32 +124,32 @@ public class Player extends Creature implements Runnable{
 			}
 		}
 			
-			
+		
+		/*else if(numero == 2) { 2 player
+			if(handler.getKeyManager().up2)
+				yMove = -speed;
+			if(handler.getKeyManager().down2)
+				yMove = speed;
+			if(game.getKeyManager().left2)
+				xMove = -speed;
+			if(game.getKeyManager().right2)
+				xMove = speed;
+		}else {
+			return;
+		}*/
 		
 	}
-	private void getInput2() {
-		
-		if(handler.getKeyManager().up2)
-			yMove = -speed;
-		if(handler.getKeyManager().down2)
-			yMove = speed;
-		if(handler.getKeyManager().left2)
-			xMove = -speed;
-		if(handler.getKeyManager().right2)
-			xMove = speed;
-		if(handler.getKeyManager().bomb) {
-			if(tempoFinal - tempoInicio > 200) {
-				installBomb();
-				tempoInicio = tempoFinal;
-		}
-	}
-}
+	
+	/*
+	 * @author Nathan Rodrigo
+	 * Planta bomba no mapa
+	 */
 	public void installBomb() {
 		if(!handler.getWorld().hasBomb(getCurrentTileX(x), getCurrentTileY(y+15)) 
 				&& nOfBombs < maxBombs) {
 			Bomb bomba = new Bomb(handler, (int)x, (int)y+15);
 			handler.getWorld().getEntityManager().addBomb(bomba);
-			//System.out.println("Bomba plantada");
+			System.out.println("Bomba plantada");
 			nOfBombs++;
 		}
 	}
@@ -175,7 +158,6 @@ public class Player extends Creature implements Runnable{
 	public void render(Graphics g) {
 
 		g.drawImage(getCurrentAnimation(), (int)(x), (int)(y), width, height, null);
-		g.drawImage(getCurrentAnimation2(), (int)(x), (int)(y), width, height, null);
 		
 		/*g.setColor(Color.red); // Testar hit box
 		g.fillRect((int) (x + bounds.x), (int)(y + bounds.y), bounds.width, bounds.height);*/
@@ -191,22 +173,7 @@ public class Player extends Creature implements Runnable{
 		if(yMove < 0)
 			return animUp.getCurrentFrame();
 		return Assets.player;
-		
 	} 
-	
-	private BufferedImage getCurrentAnimation2() {
-		
-		 if(xMove > 0) 
-			 return animRight2.getCurrentFrame(); 
-		 if(xMove < 0) 
-			 return animLeft2.getCurrentFrame();
-		  if(yMove > 0)
-			  return animDown2.getCurrentFrame();
-		 if(yMove < 0)
-			 return animUp2.getCurrentFrame();
-		 
-		return Assets.woman;
-	}
 
 	public int getnOfBombs() {
 		return nOfBombs;

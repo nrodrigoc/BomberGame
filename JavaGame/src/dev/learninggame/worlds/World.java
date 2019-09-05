@@ -1,10 +1,10 @@
 package dev.learninggame.worlds;
 
 import java.awt.Graphics;
+import java.util.Iterator;
 
 import dev.learninggame.Handler;
 import dev.learninggame.entities.Bomb;
-import dev.learninggame.entities.Entity;
 import dev.learninggame.entities.EntityManager;
 import dev.learninggame.entities.creatures.Player;
 import dev.learninggame.tiles.Tile;
@@ -15,40 +15,30 @@ public class World {
 	private Handler handler;
 	private int width, height;
 	private int spawnX, spawnY;
-	private int spawnX2, spawnY2;
 	//Coordenadas das tiles
 	private int[][] tiles;
 	//Entities
 	private EntityManager entityManager;
-	//ID da ultima bomba do arrayList
+	//ID e indice da ultima bomba do arrayList
+	//private int currentId;
 	
 	public World(Handler handler, String path) {
 		this.handler = handler;
 		entityManager = new EntityManager(handler, new Player(handler, 100, 100));
 		loadWorld(path);
 		
+		//currentId = -1;
+		
 		entityManager.getPlayer().setX(spawnX);
 		entityManager.getPlayer().setY(spawnY);
-		
-		//entityManager.getPlayer().setX(spawnX2);
-		//entityManager.getPlayer().setY(spawnY2);
 	}
 	
 	public void tick() {
 		entityManager.tick();
+		explodeBombs();
 	}
 	
 	public void render(Graphics g){
-		/*//for(Entity e : entityManager.getEntities()) 
-		//contem o inicio do campo de visao do jogador no eixo x
-		int xStart = 0;
-		//contem o fim do campo de visao do jogador no eixo x
-		
-		int xEnd = (int) Math.min(width, (handler.getWidth()) / Tile.TILEWIDTH + 1);
-		int yStart = (int) Math.max(0, handler.getGameCamera().getyOffset() / Tile.TILEHEIGHT);
-		int yEnd = (int) Math.min(height, (handler.getWidth()) / Tile.TILEHEIGHT + 1);
-		*/
-		
 		for(int y = 0; y < handler.getHeight()/Tile.TILEHEIGHT; y++){
 			for(int x = 0; x < handler.getWidth()/Tile.TILEWIDTH; x++){
 				getTile(x, y).render(g, (int) (x * Tile.TILEWIDTH),(int) (y * Tile.TILEHEIGHT));
@@ -62,7 +52,6 @@ public class World {
 	public Tile getTile(int x, int y) {
 		if ( x < 0 || y < 0 || x >= width || y >= height)
 			return Tile.grassTile;
-		
 		
 		Tile t = Tile.tiles[tiles[x][y]];
 		if(t == null)
@@ -100,6 +89,21 @@ public class World {
 		return height;
 	}
 	
+	public void explodeBombs() {
+		for(Iterator<Bomb> b = entityManager.getBombs().iterator(); b.hasNext(); ) {
+			Bomb bomba = b.next();
+			if(bomba.getTimeToExplode() > 5000) {
+				b.remove();
+			}
+		}
+	}
+	
+	/**
+	 * @author Nathan Rodrigo
+	 * @param currentPlayerX pos x da tile atual do player
+	 * @param currentPlayerY pos y da tile atual do player
+	 * @return True se a tile sugerida possui bomba  
+	 */
 	public boolean hasBomb(int currentPlayerX, int currentPlayerY) {
 		for(Bomb b : entityManager.getBombs()) {
 			int currentBombX = (int)b.getCurrentTileX(b.getX());
@@ -122,4 +126,29 @@ public class World {
 		return null;
 	}
 	
+	/*public int currentBombID() {
+		return currentId;
+	}
+
+	public int getCurrentId() {
+		return currentId;
+	}
+	
+	/**
+	 * @author Nathan Rodrigo
+	 * @param removedId Id da bomba recem removida
+	 * <p>Reajusta todos os ids das bombas para que sejam identificadas posteriormente</p>
+	 */
+	/*public void idReadjustment(int removedId) {
+		for(Bomb b : entityManager.getBombs()) {
+			System.out.println("Removed: " + removedId + "Current: "+ b.getId());
+			if(b.getId() > removedId) {
+				b.setId(b.getId()-1);
+			}
+		}
+	}
+	
+	/public void setCurrentId(int currentId) {
+		this.currentId = currentId;
+	}*/
 }

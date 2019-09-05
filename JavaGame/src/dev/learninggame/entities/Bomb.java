@@ -10,8 +10,11 @@ import dev.learninggame.tiles.Tile;
 public class Bomb extends Entity{
 	
 	private Animation animBomb;
-	//private int id;
-	
+	//Tempo que a bomba esta ativa
+	private long initialTime;
+	private long timeToExplode;
+	private int id;
+
 	public Bomb(Handler handler, float x, float y) {
 		super(handler, x, y, Tile.TILEWIDTH, Tile.TILEHEIGHT);
 		
@@ -24,17 +27,18 @@ public class Bomb extends Entity{
 		bounds.width = Tile.TILEWIDTH;
 		bounds.height = Tile.TILEHEIGHT;
 		
+		//Tempo inial da bomba
+		initialTime = System.currentTimeMillis();
+		timeToExplode = System.currentTimeMillis();
+		
 		animBomb = new Animation(300, Assets.putBomb);
 		
 	}
 	
-	/*public int getID() {
-		return id;
-	}*/
-	
 	@Override
 	public void tick() {
 		animBomb.tick();
+		timeToExplode = System.currentTimeMillis();
 	}
 
 	@Override
@@ -54,7 +58,19 @@ public class Bomb extends Entity{
 	public int getBoundsY() {
 		return bounds.y;
 	}
+	
+	public long getTimeToExplode() {
+		return timeToExplode - initialTime;
+	}
+	
+	public int getId() {
+		return id;
+	}
 
+	public void setId(int id) {
+		this.id = id;
+	}
+	
 	@Override
 	protected void die() {}
 
