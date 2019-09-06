@@ -94,6 +94,7 @@ public class World {
 			Bomb bomba = b.next();
 			if(bomba.getTimeToExplode() > 5000) {
 				b.remove();
+				entityManager.getPlayer().addnOfBombs();
 			}
 		}
 	}

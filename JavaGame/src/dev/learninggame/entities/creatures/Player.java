@@ -118,7 +118,7 @@ public class Player extends Creature implements Runnable{
 		if(handler.getKeyManager().right)
 			xMove = speed;
 		if(handler.getKeyManager().bomb) {
-			if(tempoFinal - tempoInicio > 200) {
+			if(tempoFinal - tempoInicio > 250) {
 				installBomb();
 				tempoInicio = tempoFinal;
 			}
@@ -180,7 +180,7 @@ public class Player extends Creature implements Runnable{
 	}
 
 	public void addnOfBombs() {
-		this.nOfBombs++;
+		this.nOfBombs--;
 	}
 	
 	public int getMaxBombs() {
