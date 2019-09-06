@@ -26,7 +26,7 @@ public class PlayerGirl extends Creature{
 		super(handler, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
 		
 		//ajuste da posicao da hitbox
-		bounds.x = 20;
+		bounds.x = 40;
 		bounds.y = 50;
 		//largura e comprimento da hitbox
 		bounds.width = 20;
