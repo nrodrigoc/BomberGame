@@ -8,7 +8,7 @@ public class Assets {
 	private static final int w = 32, h = 32; // Width and Height
 	private static final int wMan = 125, hMan = 125;
 	private static final int wEnemy = 50, hEnemy = 94; //altura e largura da imagem 50x94
-	private static final int Wwoman = 90, Hwoman = 100;
+	private static final int Wwoman = 100, Hwoman = 100;
 	
 	public static BufferedImage grass, dirt, rock, sand, brick, player, tree, enemy, woman;
 	//omi
