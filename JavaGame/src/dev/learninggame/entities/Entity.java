@@ -104,8 +104,9 @@ public abstract class Entity {
 		return new Rectangle((int)(x + bounds.x + xOffset), (int)(y + bounds.y + yOffset), bounds.width, bounds.height);
 	}
 	
-	/* @author Nathan Rodrigo
-	 * @return A coordenada X do Mundo onde se encontra a Creature*/
+	/** @author Nathan Rodrigo
+	 * @param x Posicao X em pixel da criatura
+	 * @return A coordenada X do meio da Tile onde se encontra a criatura*/
 	public int getCurrentTileX(float x) {
 		for(int i = 0; i < (handler.getHeight()/Tile.TILEHEIGHT) + (Tile.TILEHEIGHT*2); i++) {
 			if(x <= Tile.TILEHEIGHT*i) {
@@ -115,8 +116,9 @@ public abstract class Entity {
 		return 0;
 	}
 	
-	/* @author Nathan Rodrigo
-	 * @return A coordenada Y do Mundo onde se encontra a Creature*/
+	/** @author Nathan Rodrigo
+	 * @param y Posicao Y em pixel da criatura
+	 * @return A coordenada Y do meio da Tile onde se encontra a criatura*/
 	public int getCurrentTileY(float y) {
 		for(int i = 0; i < handler.getHeight()/Tile.TILEHEIGHT + (Tile.TILEWIDTH*2); i++) {
 			if(y <= Tile.TILEHEIGHT*i) {
