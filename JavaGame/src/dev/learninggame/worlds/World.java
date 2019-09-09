@@ -8,7 +8,6 @@ import dev.learninggame.entities.Bomb;
 import dev.learninggame.entities.EntityManager;
 import dev.learninggame.entities.Fire;
 import dev.learninggame.entities.creatures.Player;
-import dev.learninggame.entities.creatures.PlayerGirl;
 import dev.learninggame.tiles.Tile;
 import dev.learninggame.utils.Utils;
 
@@ -26,7 +25,7 @@ public class World {
 	
 	public World(Handler handler, String path) {
 		this.handler = handler;
-		entityManager = new EntityManager(handler, new Player(handler, 100, 100),  new PlayerGirl(handler, 100, 100));
+		entityManager = new EntityManager(handler, new Player(handler, 100, 100));
 		loadWorld(path);
 		
 		//currentId = -1;
@@ -127,11 +126,6 @@ public class World {
 				return b;
 			}
 		}
-		return null;
-	}
-
-	public Tile getPlayer() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	
