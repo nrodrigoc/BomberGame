@@ -25,12 +25,21 @@ public class PlayerGirl extends Creature{
 	public PlayerGirl(Handler handler, float x, float y) {	
 		super(handler, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
 		
+		/**
 		//ajuste da posicao da hitbox
 		bounds.x = 40;
 		bounds.y = 50;
 		//largura e comprimento da hitbox
 		bounds.width = 20;
 		bounds.height = 20;
+		*/
+		//ajuste da posicao da hitbox
+		bounds.x = 34;
+		bounds.y = 38;
+		//largura e comprimento da hitbox
+		bounds.width = 30;
+		bounds.height = 35;
+				
 		
 		animDown = new Animation(100, Assets.playerg_down);
 		animUp = new Animation(100, Assets.playerg_up);
