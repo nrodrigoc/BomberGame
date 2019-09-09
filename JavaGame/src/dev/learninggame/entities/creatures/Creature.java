@@ -123,6 +123,11 @@ public abstract class Creature extends Entity{
 			return true;
 	}
 	
+	public boolean collisionwithcreatures(int x, int y) {
+		return handler.getWorld().getPlayer().isSolid();
+	}
+	
+	
 	//GETTERS AND SETTERS
 	public float getxMove() {
 		return xMove;
