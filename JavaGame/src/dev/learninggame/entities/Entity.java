@@ -106,7 +106,7 @@ public abstract class Entity {
 	
 	/** @author Nathan Rodrigo
 	 * @param x Posicao X em pixel da criatura
-	 * @return A coordenada X do meio da Tile onde se encontra a criatura*/
+	 * @return A coordenada X da Tile onde se encontra a criatura*/
 	public int getCurrentTileX(float x) {
 		for(int i = 0; i < (handler.getHeight()/Tile.TILEHEIGHT) + (Tile.TILEHEIGHT*2); i++) {
 			if(x <= Tile.TILEHEIGHT*i) {
@@ -118,7 +118,7 @@ public abstract class Entity {
 	
 	/** @author Nathan Rodrigo
 	 * @param y Posicao Y em pixel da criatura
-	 * @return A coordenada Y do meio da Tile onde se encontra a criatura*/
+	 * @return A coordenada Y da Tile onde se encontra a criatura*/
 	public int getCurrentTileY(float y) {
 		for(int i = 0; i < handler.getHeight()/Tile.TILEHEIGHT + (Tile.TILEWIDTH*2); i++) {
 			if(y <= Tile.TILEHEIGHT*i) {

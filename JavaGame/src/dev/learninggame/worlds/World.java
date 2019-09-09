@@ -6,6 +6,7 @@ import java.util.Iterator;
 import dev.learninggame.Handler;
 import dev.learninggame.entities.Bomb;
 import dev.learninggame.entities.EntityManager;
+import dev.learninggame.entities.Fire;
 import dev.learninggame.entities.creatures.Player;
 import dev.learninggame.tiles.Tile;
 import dev.learninggame.utils.Utils;
@@ -93,8 +94,9 @@ public class World {
 		for(Iterator<Bomb> b = entityManager.getBombs().iterator(); b.hasNext(); ) {
 			Bomb bomba = b.next();
 			if(bomba.getTimeToExplode() > 5000) {
+				installFire(bomba.getX(), bomba.getY(), Fire.MAIN);
 				b.remove();
-				entityManager.getPlayer().addnOfBombs();
+				entityManager.getPlayer().addnOfBombs(); //Diminui a contagem de bombas colocadas do player
 			}
 		}
 	}
@@ -125,6 +127,18 @@ public class World {
 			}
 		}
 		return null;
+	}
+	
+	public void installFire(float bombX, float bombY, int asset) {
+		Fire fire = new Fire(handler, bombX, bombY, asset);
+		entityManager.addEntity(fire);
+		for(int i = 0; i < 2; i++) {
+			fire.verifyOpenXleft();
+			fire.verifyOpenXright();
+			fire.verifyOpenYtop();
+			fire.verifyOpenYbot();
+		}
+		
 	}
 	
 	/*public int currentBombID() {

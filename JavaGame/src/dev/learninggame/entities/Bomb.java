@@ -27,7 +27,7 @@ public class Bomb extends Entity{
 		bounds.width = Tile.TILEWIDTH;
 		bounds.height = Tile.TILEHEIGHT;
 		
-		//Tempo inial da bomba
+		//Tempo inicial da bomba
 		initialTime = System.currentTimeMillis();
 		timeToExplode = System.currentTimeMillis();
 		
