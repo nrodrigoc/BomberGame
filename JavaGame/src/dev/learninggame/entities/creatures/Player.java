@@ -155,8 +155,8 @@ public class Player extends Creature implements Runnable{
 
 		g.drawImage(getCurrentAnimation(), (int)(x), (int)(y), width, height, null);
 		
-		g.setColor(Color.red); // Testar hit box
-		g.fillRect((int) (x + bounds.x), (int)(y + bounds.y), bounds.width, bounds.height);
+		/*g.setColor(Color.red); // Testar hit box
+		g.fillRect((int) (x + bounds.x), (int)(y + bounds.y), bounds.width, bounds.height);*/
 	}
 
 	private BufferedImage getCurrentAnimation() {

@@ -2,6 +2,7 @@ package dev.learninggame.entities;
 
 import java.awt.Graphics;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import dev.learninggame.Handler;
 import dev.learninggame.entities.creatures.Player;
@@ -14,6 +15,7 @@ public class EntityManager {
 	private PlayerGirl playerg;
 	private ArrayList<Entity> entities;
 	private ArrayList<Bomb> bombs; 
+	private ArrayList<Fire> fires;
 	
 	public EntityManager(Handler handler, Player player, PlayerGirl playerg) {
 		this.handler = handler;
@@ -21,6 +23,7 @@ public class EntityManager {
 		this.playerg = playerg;
 		entities = new ArrayList<>();
 		bombs = new ArrayList<>();
+		fires = new ArrayList<>();
 		addEntity(player);
 		addEntity(playerg);
 	}
@@ -33,6 +36,14 @@ public class EntityManager {
 				entities.remove(e);
 			}
 		}
+		for(int i = 0; i < fires.size(); i++) {
+			Entity e = fires.get(i);
+			e.tick();
+			if(!e.isActive()) {
+				entities.remove(e);
+			}
+		}
+		
 		for(int i = 0; i < entities.size(); i++) {
 			Entity e = entities.get(i);
 			e.tick();
@@ -47,6 +58,9 @@ public class EntityManager {
 		for(Bomb b : bombs) {
 			b.render(g);
 		}
+		for(Fire f : fires) {
+			f.render(g);
+		}
 		for(Entity e : entities) {
 			e.render(g);
 		}
@@ -58,6 +72,10 @@ public class EntityManager {
 	
 	public void addBomb(Bomb b) {
 		bombs.add(b);
+	}
+	
+	public void addFire(Fire f) {
+		fires.add(f);
 	}
 	
 	//GETTERS AND SETTERS
@@ -85,8 +103,22 @@ public class EntityManager {
 		return bombs;
 	}
 	
+	public ArrayList<Fire> getFires(){
+		return fires;
+	}
+	
 	public void setEntities(ArrayList<Entity> entities) {
 		this.entities = entities;
+	}
+	
+	public void removeFire(int id) {
+		for(Iterator<Fire> f = fires.iterator(); f.hasNext(); ) {
+			Fire fire = f.next();
+			if(fire.getId() == id) {
+				fire.setActive(false);
+				f.remove();
+			}
+		}
 	}
 	
 	public void removeBomb(int id) {

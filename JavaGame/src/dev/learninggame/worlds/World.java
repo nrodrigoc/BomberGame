@@ -6,6 +6,7 @@ import java.util.Iterator;
 import dev.learninggame.Handler;
 import dev.learninggame.entities.Bomb;
 import dev.learninggame.entities.EntityManager;
+import dev.learninggame.entities.Fire;
 import dev.learninggame.entities.creatures.Player;
 import dev.learninggame.entities.creatures.PlayerGirl;
 import dev.learninggame.tiles.Tile;
@@ -20,15 +21,15 @@ public class World {
 	private int[][] tiles;
 	//Entities
 	private EntityManager entityManager;
-	//ID e indice da ultima bomba do arrayList
-	//private int currentId;
+	//ID da ultima explosao ocorrida no jogo
+	private int currentId;
 	
 	public World(Handler handler, String path) {
 		this.handler = handler;
 		entityManager = new EntityManager(handler, new Player(handler, 100, 100),  new PlayerGirl(handler, 100, 100));
 		loadWorld(path);
 		
-		//currentId = -1;
+		currentId = 0;
 		
 		entityManager.getPlayer().setX(spawnX);
 		entityManager.getPlayer().setY(spawnY);
@@ -94,8 +95,10 @@ public class World {
 		for(Iterator<Bomb> b = entityManager.getBombs().iterator(); b.hasNext(); ) {
 			Bomb bomba = b.next();
 			if(bomba.getTimeToExplode() > 5000) {
+				installFire(bomba.getX(), bomba.getY(), Fire.MAIN, currentId);
+				currentId++;
 				b.remove();
-				entityManager.getPlayer().addnOfBombs();
+				entityManager.getPlayer().addnOfBombs(); //Diminui a contagem de bombas colocadas do player
 			}
 		}
 	}
@@ -132,14 +135,23 @@ public class World {
 		return player;
 	}
 	
-	/*public int currentBombID() {
-		return currentId;
+	public void installFire(float bombX, float bombY, int asset, int id) {
+		Fire fire = new Fire(handler, bombX, bombY, asset);
+		fire.setId(id);
+		entityManager.addFire(fire);
+		for(int i = 0; i < 2; i++) {
+			fire.verifyOpenXleft();
+			fire.verifyOpenXright();
+			fire.verifyOpenYtop();
+			fire.verifyOpenYbot();
+		}
 	}
-
+	
 	public int getCurrentId() {
 		return currentId;
 	}
 	
+	/*
 	/**
 	 * @author Nathan Rodrigo
 	 * @param removedId Id da bomba recem removida

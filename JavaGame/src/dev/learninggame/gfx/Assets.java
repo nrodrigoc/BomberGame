@@ -121,8 +121,8 @@ public class Assets {
 		bombFire[2] = fireSheet.crop(sFire*2, 0, sFire, sFire); //right
 		bombFire[3] = fireSheet.crop(sFire*2, sFire, sFire, sFire); //mid-left
 		bombFire[4] = fireSheet.crop(sFire, sFire, sFire, sFire); //left
-		bombFire[5] = fireSheet.crop(0, sFire, sFire, sFire); //mid-down
-		bombFire[6] = fireSheet.crop(0, sFire*2, sFire, sFire); //down
+		bombFire[5] = fireSheet.crop(0, sFire, sFire, sFire); //mid-bottom
+		bombFire[6] = fireSheet.crop(0, sFire*2, sFire, sFire); //bottom
 		bombFire[7] = fireSheet.crop(sFire*3, sFire, sFire, sFire); //mid-top
 		bombFire[8] = fireSheet.crop(sFire*3, 0, sFire, sFire); //top
 		
