@@ -24,7 +24,9 @@ public class Player extends Creature implements Runnable{
 	private Animation animRight;
 	private long tempoInicio;
 	private long tempoFinal;
+	protected boolean solid;
 	
+
 	@Override
 	public void run() {
 		System.out.println("player iniciado");
@@ -32,7 +34,8 @@ public class Player extends Creature implements Runnable{
 	
 	public Player(Handler handler, float x, float y) {	
 		super(handler, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
-		
+		solid = true;
+		setSolidity(false);
 		maxBombs = 10;
 		
 		//ajuste da posicao da hitbox
@@ -51,6 +54,10 @@ public class Player extends Creature implements Runnable{
 		//Contagem do tempo
 		tempoInicio = 0;
 		tempoFinal = System.currentTimeMillis();
+	}
+
+	protected void setSolidity(boolean b) {
+		this.solid = b;
 	}
 
 	@Override
@@ -101,6 +108,10 @@ public class Player extends Creature implements Runnable{
 	
 	public void die() {
 		System.out.println("U lose");
+	}
+	
+	public boolean isSolid() {
+		return solid;
 	}
 	
 	private void getInput() {

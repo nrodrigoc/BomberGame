@@ -128,9 +128,8 @@ public class World {
 		return null;
 	}
 
-	public Tile getPlayer() {
-		// TODO Auto-generated method stub
-		return null;
+	public Player getPlayer() {
+		return player;
 	}
 	
 	/*public int currentBombID() {
