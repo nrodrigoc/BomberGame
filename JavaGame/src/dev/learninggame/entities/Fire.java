@@ -22,7 +22,10 @@ public class Fire extends Entity{
 	
 	private BufferedImage[] fireSheet;
 	private int currentAsset;
-	
+	//Time to disappear
+	private long initialTime;
+	private long finalTime;
+	private int id;
 	
 	public Fire(Handler handler, float x, float y, int currentAsset) {
 		super(handler, x, y, Tile.TILEWIDTH, Tile.TILEHEIGHT);
@@ -34,12 +37,17 @@ public class Fire extends Entity{
 		bounds.width = Tile.TILEWIDTH;
 		bounds.height = Tile.TILEHEIGHT;
 		
+		//Tempo inicial da bomba
+		initialTime = System.currentTimeMillis();
+		finalTime = System.currentTimeMillis();
+		
 		fireSheet = Assets.bombFire;
 	}
 	
 	@Override
 	public void tick() {
-	
+		finalTime = System.currentTimeMillis();
+		verifyTime();
 	}
 	
 	/**
@@ -51,10 +59,10 @@ public class Fire extends Entity{
 		int ty = (int) y - Tile.TILEHEIGHT;
 		
 		if(!collisionWithTile(getCurrentTileX(x), getCurrentTileY(ty)) && this.currentAsset == MAIN) {
-			handler.getWorld().installFire(x, ty, MID_TOP);
+			handler.getWorld().installFire(x, ty, MID_TOP, id);
 		}
 		if(!collisionWithTile(getCurrentTileX(x), getCurrentTileY(ty)) && this.currentAsset == MID_TOP) {
-			handler.getWorld().installFire(x, ty, TOP);
+			handler.getWorld().installFire(x, ty, TOP, id);
 		}
 	}
 	
@@ -67,10 +75,10 @@ public class Fire extends Entity{
 		int ty = (int) y + Tile.TILEHEIGHT;
 		
 		if(!collisionWithTile(getCurrentTileX(x), getCurrentTileY(ty)) && this.currentAsset == MAIN) {
-			handler.getWorld().installFire(x, ty, MID_BOT);
+			handler.getWorld().installFire(x, ty, MID_BOT, id);
 		}
 		if(!collisionWithTile(getCurrentTileX(x), getCurrentTileY(ty)) && this.currentAsset == MID_BOT) {
-			handler.getWorld().installFire(x, ty, BOT);
+			handler.getWorld().installFire(x, ty, BOT, id);
 		}
 	}
 	
@@ -83,10 +91,10 @@ public class Fire extends Entity{
 		int tx = (int) x + Tile.TILEWIDTH;
 		
 		if(!collisionWithTile(getCurrentTileX(tx), getCurrentTileY(y)) && this.currentAsset == MAIN) {
-			handler.getWorld().installFire(tx, y, MID_RIGHT);
+			handler.getWorld().installFire(tx, y, MID_RIGHT, id);
 		}
 		if(!collisionWithTile(getCurrentTileX(tx), getCurrentTileY(y)) && this.currentAsset == MID_RIGHT) {
-			handler.getWorld().installFire(tx, y, RIGHT);
+			handler.getWorld().installFire(tx, y, RIGHT, id);
 		}
 	}
 	
@@ -99,13 +107,38 @@ public class Fire extends Entity{
 		int tx = (int) x - Tile.TILEWIDTH;
 		
 		if(!collisionWithTile(getCurrentTileX(tx), getCurrentTileY(y)) && this.currentAsset == MAIN) {
-			handler.getWorld().installFire(tx, y, MID_LEFT);
+			handler.getWorld().installFire(tx, y, MID_LEFT, id);
 		}
 		if(!collisionWithTile(getCurrentTileX(tx), getCurrentTileY(y)) && this.currentAsset == MID_LEFT) {
-			handler.getWorld().installFire(tx, y, LEFT);
+			handler.getWorld().installFire(tx, y, LEFT, id);
 		}
 	}
 
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+	
+	/**
+	 * @author Nathan Rodrigo
+	 * @return tempo de vida do fogo
+	 */
+	public long getTimeToDisappear() {
+		return finalTime - initialTime;
+	}
+	
+	/**
+	 * @author Nathan Rodrigo
+	 * Funcao para verificar se o tempo do fogo deve esgotar
+	 */
+	public void verifyTime() {
+		if(getTimeToDisappear() > 2500) {
+			handler.getWorld().getEntityManager().removeFire(id);
+		}
+	}
 	
 	private boolean collisionWithTile(int nextTileX, int nextTileY) {
 		return handler.getWorld().getTile(nextTileX, nextTileY).isSolid();
