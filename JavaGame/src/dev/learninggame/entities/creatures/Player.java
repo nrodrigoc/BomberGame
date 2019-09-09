@@ -1,5 +1,6 @@
 package dev.learninggame.entities.creatures;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -121,20 +122,7 @@ public class Player extends Creature implements Runnable{
 			}
 		}
 			
-		
-		/*else if(numero == 2) { 2 player
-			if(handler.getKeyManager().up2)
-				yMove = -speed;
-			if(handler.getKeyManager().down2)
-				yMove = speed;
-			if(game.getKeyManager().left2)
-				xMove = -speed;
-			if(game.getKeyManager().right2)
-				xMove = speed;
-		}else {
-			return;
-		}*/
-		
+	
 	}
 	
 	/*
@@ -156,8 +144,8 @@ public class Player extends Creature implements Runnable{
 
 		g.drawImage(getCurrentAnimation(), (int)(x), (int)(y), width, height, null);
 		
-		/*g.setColor(Color.red); // Testar hit box
-		g.fillRect((int) (x + bounds.x), (int)(y + bounds.y), bounds.width, bounds.height);*/
+		g.setColor(Color.red); // Testar hit box
+		g.fillRect((int) (x + bounds.x), (int)(y + bounds.y), bounds.width, bounds.height);
 	}
 
 	private BufferedImage getCurrentAnimation() {

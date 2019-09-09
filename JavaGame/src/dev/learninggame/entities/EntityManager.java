@@ -5,20 +5,24 @@ import java.util.ArrayList;
 
 import dev.learninggame.Handler;
 import dev.learninggame.entities.creatures.Player;
+import dev.learninggame.entities.creatures.PlayerGirl;
 
 public class EntityManager {
 	
 	private Handler handler;
 	private Player player;
+	private PlayerGirl playerg;
 	private ArrayList<Entity> entities;
 	private ArrayList<Bomb> bombs; 
 	
-	public EntityManager(Handler handler, Player player) {
+	public EntityManager(Handler handler, Player player, PlayerGirl playerg) {
 		this.handler = handler;
 		this.player = player;
+		this.playerg = playerg;
 		entities = new ArrayList<>();
 		bombs = new ArrayList<>();
 		addEntity(player);
+		addEntity(playerg);
 	}
 	
 	public void tick() {
