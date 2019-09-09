@@ -1,6 +1,5 @@
 package dev.learninggame.states;
 
-import java.awt.Color;
 import java.awt.Graphics;
 
 import dev.learninggame.Handler;

@@ -1,17 +1,14 @@
 package dev.learninggame.entities.creatures;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 
 import dev.learninggame.Handler;
 import dev.learninggame.entities.Bomb;
 import dev.learninggame.entities.Entity;
 import dev.learninggame.gfx.Animation;
 import dev.learninggame.gfx.Assets;
-import dev.learninggame.tiles.Tile;
 
 public class Player extends Creature implements Runnable{
 	
