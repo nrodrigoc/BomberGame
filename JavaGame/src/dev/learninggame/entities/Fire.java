@@ -135,7 +135,7 @@ public class Fire extends Entity{
 	 * Funcao para verificar se o tempo do fogo deve esgotar
 	 */
 	public void verifyTime() {
-		if(getTimeToDisappear() > 2500) {
+		if(getTimeToDisappear() > 2000) {
 			handler.getWorld().getEntityManager().removeFire(id);
 		}
 	}
