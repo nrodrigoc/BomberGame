@@ -59,11 +59,13 @@ public class Fire extends Entity{
 		int ty = (int) y - Tile.TILEHEIGHT;
 		
 		if(!collisionWithTile(getCurrentTileX(x), getCurrentTileY(ty)) && this.currentAsset == MAIN
-				&& !verifyBombs(getCurrentTileX(x), getCurrentTileX(ty))) {
+				&& !verifyBombs(getCurrentTileX(x), getCurrentTileX(ty))
+				&& !verifyBricks(getCurrentTileX(x), getCurrentTileX(ty))) {
 			handler.getWorld().installFire(x, ty, MID_TOP, id);
 		}
 		if(!collisionWithTile(getCurrentTileX(x), getCurrentTileY(ty)) && this.currentAsset == MID_TOP
-				&& !verifyBombs(getCurrentTileX(x), getCurrentTileX(ty))) {
+				&& !verifyBombs(getCurrentTileX(x), getCurrentTileX(ty))
+				&& !verifyBricks(getCurrentTileX(x), getCurrentTileX(ty))) {
 			handler.getWorld().installFire(x, ty, TOP, id);
 		}
 	}
@@ -77,11 +79,13 @@ public class Fire extends Entity{
 		int ty = (int) y + Tile.TILEHEIGHT;
 		
 		if(!collisionWithTile(getCurrentTileX(x), getCurrentTileY(ty)) && this.currentAsset == MAIN
-				&& !verifyBombs(getCurrentTileX(x), getCurrentTileX(ty))) {
+				&& !verifyBombs(getCurrentTileX(x), getCurrentTileX(ty))
+				&& !verifyBricks(getCurrentTileX(x), getCurrentTileX(ty))) {
 			handler.getWorld().installFire(x, ty, MID_BOT, id);
 		}
 		if(!collisionWithTile(getCurrentTileX(x), getCurrentTileY(ty)) && this.currentAsset == MID_BOT
-				&& !verifyBombs(getCurrentTileX(x), getCurrentTileX(ty))) {
+				&& !verifyBombs(getCurrentTileX(x), getCurrentTileX(ty))
+				&& !verifyBricks(getCurrentTileX(x), getCurrentTileX(ty))) {
 			handler.getWorld().installFire(x, ty, BOT, id);
 		}
 	}
@@ -95,11 +99,13 @@ public class Fire extends Entity{
 		int tx = (int) x + Tile.TILEWIDTH;
 		
 		if(!collisionWithTile(getCurrentTileX(tx), getCurrentTileY(y)) && this.currentAsset == MAIN
-				&& !verifyBombs(getCurrentTileX(tx), getCurrentTileX(y))) {
+				&& !verifyBombs(getCurrentTileX(tx), getCurrentTileX(y))
+				&& !verifyBricks(getCurrentTileX(tx), getCurrentTileX(y))) {
 			handler.getWorld().installFire(tx, y, MID_RIGHT, id);
 		}
 		if(!collisionWithTile(getCurrentTileX(tx), getCurrentTileY(y)) && this.currentAsset == MID_RIGHT
-				&& !verifyBombs(getCurrentTileX(tx), getCurrentTileX(y))) {
+				&& !verifyBombs(getCurrentTileX(tx), getCurrentTileX(y))
+				&& !verifyBricks(getCurrentTileX(tx), getCurrentTileX(y))) {
 			handler.getWorld().installFire(tx, y, RIGHT, id);
 		}
 	}
@@ -113,18 +119,42 @@ public class Fire extends Entity{
 		int tx = (int) x - Tile.TILEWIDTH;
 		
 		if(!collisionWithTile(getCurrentTileX(tx), getCurrentTileY(y)) && this.currentAsset == MAIN
-				&& !verifyBombs(getCurrentTileX(tx), getCurrentTileX(y))) {
+				&& !verifyBombs(getCurrentTileX(tx), getCurrentTileX(y))
+				&& !verifyBricks(getCurrentTileX(tx), getCurrentTileX(y))) {
 			handler.getWorld().installFire(tx, y, MID_LEFT, id);
 		}
 		if(!collisionWithTile(getCurrentTileX(tx), getCurrentTileY(y)) && this.currentAsset == MID_LEFT
-				&& !verifyBombs(getCurrentTileX(tx), getCurrentTileX(y))) {
+				&& !verifyBombs(getCurrentTileX(tx), getCurrentTileX(y))
+				&& !verifyBricks(getCurrentTileX(tx), getCurrentTileX(y))) {
 			handler.getWorld().installFire(tx, y, LEFT, id);
 		}
 	}
 	
+	/**
+	 * Metodo para verificar se ha bombas no caminho do fogo
+	 * @author Nathan Rodrigo
+	 * @param currentXFire coordenada X da textura do fogo
+	 * @param currentYFire coordenada Y da textura do fogo
+	 * @return true se houver alguma bomba no caminho
+	 */
 	public boolean verifyBombs(int currentXFire, int currentYFire) {
 		if(handler.getWorld().hasBomb(currentXFire, currentYFire)) {
 			handler.getWorld().getBomb(currentXFire, currentYFire).explodeThisBomb();
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * Metodo para verificar se ha tijolos no caminho do fogo
+	 * @author Nathan Rodrigo
+	 * @param currentXFire coordenada X da textura do fogo
+	 * @param currentYFire coordenada Y da textura do fogo
+	 * @return true se houver algum tijolo no caminho
+	 */
+	public boolean verifyBricks(int currentXFire, int currentYFire) {
+		if(handler.getWorld().hasBrick(currentXFire, currentYFire)) {
+			handler.getWorld().getBrick(currentXFire, currentYFire).setActive(false);
 			return true;
 		}
 		return false;
