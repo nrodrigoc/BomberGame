@@ -96,7 +96,7 @@ public class World {
 			Bomb bomba = b.next();
 			if(bomba.getTimeToExplode() > 5000) {
 				installFire(bomba.getX(), bomba.getY(), Fire.MAIN, currentId);
-				currentId++;
+				addCurrentId();
 				b.remove();
 				entityManager.getPlayer().addnOfBombs(); //Diminui a contagem de bombas colocadas do player
 			}
@@ -105,35 +105,34 @@ public class World {
 	
 	/**
 	 * @author Nathan Rodrigo
-	 * @param currentPlayerX pos x da tile atual do player
-	 * @param currentPlayerY pos y da tile atual do player
+	 * @param currentPlayerX pos x da tile atual da entidade
+	 * @param currentPlayerY pos y da tile atual da entidade
 	 * @return True se a tile sugerida possui bomba  
 	 */
-	public boolean hasBomb(int currentPlayerX, int currentPlayerY) {
+	public boolean hasBomb(int currentEntityX, int currentEntityY) {
 		for(Bomb b : entityManager.getBombs()) {
 			int currentBombX = (int)b.getCurrentTileX(b.getX());
 			int currentBombY = (int)b.getCurrentTileX(b.getY());
-			if(currentPlayerX == currentBombX && currentPlayerY == currentBombY) {
+			if(currentEntityX == currentBombX && currentEntityY == currentBombY) {
 				return true;
 			}
 		}
 		return false;
 	}
 	
-	public Bomb getBomb(int currentPlayerX, int currentPlayerY) {
+	public Bomb getBomb(int currentEntityX, int currentEntityY) {
 		for(Bomb b : entityManager.getBombs()) {
 			int currentBombX = (int)b.getCurrentTileX(b.getX());
 			int currentBombY = (int)b.getCurrentTileX(b.getY());
-			if(currentPlayerX == currentBombX && currentPlayerY == currentBombY) {
+			if(currentEntityX == currentBombX && currentEntityY == currentBombY) {
 				return b;
 			}
 		}
 		return null;
 	}
-
+	
 	public Tile getPlayer() {
-		// TODO Auto-generated method stub
-		return null;
+		return null; // Isso nem faz sentido
 	}
 	
 	public void installFire(float bombX, float bombY, int asset, int id) {
@@ -148,26 +147,11 @@ public class World {
 		}
 	}
 	
+	public void addCurrentId() {
+		this.currentId++;
+	}
+	
 	public int getCurrentId() {
 		return currentId;
 	}
-	
-	/*
-	/**
-	 * @author Nathan Rodrigo
-	 * @param removedId Id da bomba recem removida
-	 * <p>Reajusta todos os ids das bombas para que sejam identificadas posteriormente</p>
-	 */
-	/*public void idReadjustment(int removedId) {
-		for(Bomb b : entityManager.getBombs()) {
-			System.out.println("Removed: " + removedId + "Current: "+ b.getId());
-			if(b.getId() > removedId) {
-				b.setId(b.getId()-1);
-			}
-		}
-	}
-	
-	/public void setCurrentId(int currentId) {
-		this.currentId = currentId;
-	}*/
 }

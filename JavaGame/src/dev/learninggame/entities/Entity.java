@@ -127,4 +127,6 @@ public abstract class Entity {
 		}
 		return 0;
 	}
+	
+	
 }

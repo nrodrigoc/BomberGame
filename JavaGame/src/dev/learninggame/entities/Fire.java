@@ -24,7 +24,7 @@ public class Fire extends Entity{
 	private int currentAsset;
 	//Time to disappear
 	private long initialTime;
-	private long finalTime;
+	private long currentTime;
 	private int id;
 	
 	public Fire(Handler handler, float x, float y, int currentAsset) {
@@ -39,14 +39,14 @@ public class Fire extends Entity{
 		
 		//Tempo inicial da bomba
 		initialTime = System.currentTimeMillis();
-		finalTime = System.currentTimeMillis();
+		currentTime = System.currentTimeMillis();
 		
 		fireSheet = Assets.bombFire;
 	}
 	
 	@Override
 	public void tick() {
-		finalTime = System.currentTimeMillis();
+		currentTime = System.currentTimeMillis();
 		verifyTime();
 	}
 	
@@ -58,10 +58,12 @@ public class Fire extends Entity{
 		//Cima
 		int ty = (int) y - Tile.TILEHEIGHT;
 		
-		if(!collisionWithTile(getCurrentTileX(x), getCurrentTileY(ty)) && this.currentAsset == MAIN) {
+		if(!collisionWithTile(getCurrentTileX(x), getCurrentTileY(ty)) && this.currentAsset == MAIN
+				&& !verifyBombs(getCurrentTileX(x), getCurrentTileX(ty))) {
 			handler.getWorld().installFire(x, ty, MID_TOP, id);
 		}
-		if(!collisionWithTile(getCurrentTileX(x), getCurrentTileY(ty)) && this.currentAsset == MID_TOP) {
+		if(!collisionWithTile(getCurrentTileX(x), getCurrentTileY(ty)) && this.currentAsset == MID_TOP
+				&& !verifyBombs(getCurrentTileX(x), getCurrentTileX(ty))) {
 			handler.getWorld().installFire(x, ty, TOP, id);
 		}
 	}
@@ -74,10 +76,12 @@ public class Fire extends Entity{
 		//Cima
 		int ty = (int) y + Tile.TILEHEIGHT;
 		
-		if(!collisionWithTile(getCurrentTileX(x), getCurrentTileY(ty)) && this.currentAsset == MAIN) {
+		if(!collisionWithTile(getCurrentTileX(x), getCurrentTileY(ty)) && this.currentAsset == MAIN
+				&& !verifyBombs(getCurrentTileX(x), getCurrentTileX(ty))) {
 			handler.getWorld().installFire(x, ty, MID_BOT, id);
 		}
-		if(!collisionWithTile(getCurrentTileX(x), getCurrentTileY(ty)) && this.currentAsset == MID_BOT) {
+		if(!collisionWithTile(getCurrentTileX(x), getCurrentTileY(ty)) && this.currentAsset == MID_BOT
+				&& !verifyBombs(getCurrentTileX(x), getCurrentTileX(ty))) {
 			handler.getWorld().installFire(x, ty, BOT, id);
 		}
 	}
@@ -90,10 +94,12 @@ public class Fire extends Entity{
 		//Direita
 		int tx = (int) x + Tile.TILEWIDTH;
 		
-		if(!collisionWithTile(getCurrentTileX(tx), getCurrentTileY(y)) && this.currentAsset == MAIN) {
+		if(!collisionWithTile(getCurrentTileX(tx), getCurrentTileY(y)) && this.currentAsset == MAIN
+				&& !verifyBombs(getCurrentTileX(tx), getCurrentTileX(y))) {
 			handler.getWorld().installFire(tx, y, MID_RIGHT, id);
 		}
-		if(!collisionWithTile(getCurrentTileX(tx), getCurrentTileY(y)) && this.currentAsset == MID_RIGHT) {
+		if(!collisionWithTile(getCurrentTileX(tx), getCurrentTileY(y)) && this.currentAsset == MID_RIGHT
+				&& !verifyBombs(getCurrentTileX(tx), getCurrentTileX(y))) {
 			handler.getWorld().installFire(tx, y, RIGHT, id);
 		}
 	}
@@ -106,12 +112,22 @@ public class Fire extends Entity{
 		//Esquerda
 		int tx = (int) x - Tile.TILEWIDTH;
 		
-		if(!collisionWithTile(getCurrentTileX(tx), getCurrentTileY(y)) && this.currentAsset == MAIN) {
+		if(!collisionWithTile(getCurrentTileX(tx), getCurrentTileY(y)) && this.currentAsset == MAIN
+				&& !verifyBombs(getCurrentTileX(tx), getCurrentTileX(y))) {
 			handler.getWorld().installFire(tx, y, MID_LEFT, id);
 		}
-		if(!collisionWithTile(getCurrentTileX(tx), getCurrentTileY(y)) && this.currentAsset == MID_LEFT) {
+		if(!collisionWithTile(getCurrentTileX(tx), getCurrentTileY(y)) && this.currentAsset == MID_LEFT
+				&& !verifyBombs(getCurrentTileX(tx), getCurrentTileX(y))) {
 			handler.getWorld().installFire(tx, y, LEFT, id);
 		}
+	}
+	
+	public boolean verifyBombs(int currentXFire, int currentYFire) {
+		if(handler.getWorld().hasBomb(currentXFire, currentYFire)) {
+			handler.getWorld().getBomb(currentXFire, currentYFire).explodeThisBomb();
+			return true;
+		}
+		return false;
 	}
 
 	public int getId() {
@@ -127,7 +143,7 @@ public class Fire extends Entity{
 	 * @return tempo de vida do fogo
 	 */
 	public long getTimeToDisappear() {
-		return finalTime - initialTime;
+		return currentTime - initialTime;
 	}
 	
 	/**

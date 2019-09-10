@@ -12,7 +12,7 @@ public class Bomb extends Entity{
 	private Animation animBomb;
 	//Tempo que a bomba esta ativa
 	private long initialTime;
-	private long timeToExplode;
+	private long currentTime;
 	private int id;
 
 	public Bomb(Handler handler, float x, float y) {
@@ -29,7 +29,7 @@ public class Bomb extends Entity{
 		
 		//Tempo inicial da bomba
 		initialTime = System.currentTimeMillis();
-		timeToExplode = System.currentTimeMillis();
+		currentTime = System.currentTimeMillis();
 		
 		animBomb = new Animation(300, Assets.putBomb);
 		
@@ -38,7 +38,7 @@ public class Bomb extends Entity{
 	@Override
 	public void tick() {
 		animBomb.tick();
-		timeToExplode = System.currentTimeMillis();
+		currentTime = System.currentTimeMillis();
 	}
 
 	@Override
@@ -60,7 +60,7 @@ public class Bomb extends Entity{
 	}
 	
 	public long getTimeToExplode() {
-		return timeToExplode - initialTime;
+		return currentTime - initialTime;
 	}
 	
 	public int getId() {
@@ -69,6 +69,10 @@ public class Bomb extends Entity{
 
 	public void setId(int id) {
 		this.id = id;
+	}
+	
+	public void explodeThisBomb() {
+		currentTime = System.currentTimeMillis() + 5000;
 	}
 	
 	@Override

@@ -124,4 +124,9 @@ public class EntityManager {
 	public void removeBomb(int id) {
 		bombs.remove(id);
 	}
+	
+	public void elimineBomb(Bomb b) {
+		bombs.remove(b);
+	}
+	
 }
