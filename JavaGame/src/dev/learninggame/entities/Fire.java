@@ -48,6 +48,7 @@ public class Fire extends Entity{
 	public void tick() {
 		currentTime = System.currentTimeMillis();
 		verifyTime();
+		verifyBombs(getCurrentTileX(x), getCurrentTileX(y));
 	}
 	
 	/**
