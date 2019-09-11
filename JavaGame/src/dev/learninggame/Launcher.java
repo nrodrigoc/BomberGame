@@ -1,6 +1,7 @@
 package dev.learninggame;
 
 import dev.learninggame.Game;
+import dev.learninggame.gfx.Som;
 
 //Responsavel por inciar o game
 public class Launcher {

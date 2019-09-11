@@ -5,6 +5,7 @@ import java.awt.image.BufferStrategy;
 
 import dev.learninggame.display.Display;
 import dev.learninggame.gfx.Assets;
+import dev.learninggame.gfx.Som;
 import dev.learninggame.input.KeyManager;
 import dev.learninggame.input.MouseManager;
 import dev.learninggame.states.GameState;
@@ -35,6 +36,9 @@ public class Game implements Runnable {
 	//Camera
 	//private GameCamera gameCamera;
 	
+	//sons
+	private Som sound, explosion;
+	
 	//Handler
 	private Handler handler;
 	
@@ -55,6 +59,10 @@ public class Game implements Runnable {
 		display.getCanvas().addMouseListener(mouseManager);
 		display.getCanvas().addMouseMotionListener(mouseManager);
 		Assets.init();
+		
+		sound = new Som("/sounds/stage.mp3");
+		sound.play();
+		
 		
 		handler = new Handler(this);
 		//gameCamera = new GameCamera(handler, 0, 0);

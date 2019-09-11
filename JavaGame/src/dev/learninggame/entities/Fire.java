@@ -3,9 +3,13 @@ package dev.learninggame.entities;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.util.HashMap;
 
 import dev.learninggame.Handler;
 import dev.learninggame.gfx.Assets;
+import dev.learninggame.gfx.Som;
 import dev.learninggame.tiles.Tile;
 
 public class Fire extends Entity{
@@ -19,6 +23,9 @@ public class Fire extends Entity{
 	public static final int BOT = 6;
 	public static final int MID_TOP = 7;
 	public static final int TOP = 8;
+
+	private HashMap<String, Som> sfx;
+	
 	
 	private BufferedImage[] fireSheet;
 	private int currentAsset;
@@ -42,12 +49,16 @@ public class Fire extends Entity{
 		currentTime = System.currentTimeMillis();
 		
 		fireSheet = Assets.bombFire;
+		sfx = new HashMap<String, Som>();
+		sfx.put("explosion", new Som("/sounds/explosion.mp3"));
+		
 	}
 	
 	@Override
 	public void tick() {
 		currentTime = System.currentTimeMillis();
 		verifyTime();
+		
 	}
 	
 	/**
@@ -149,10 +160,13 @@ public class Fire extends Entity{
 	/**
 	 * @author Nathan Rodrigo
 	 * Funcao para verificar se o tempo do fogo deve esgotar
+	 * @throws FileNotFoundException 
 	 */
 	public void verifyTime() {
 		if(getTimeToDisappear() > 2000) {
+			sfx.get("explosion").play();
 			handler.getWorld().getEntityManager().removeFire(id);
+			
 		}
 	}
 	
