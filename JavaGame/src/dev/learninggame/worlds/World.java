@@ -5,6 +5,7 @@ import java.util.Iterator;
 
 import dev.learninggame.Handler;
 import dev.learninggame.entities.Bomb;
+import dev.learninggame.entities.Brick;
 import dev.learninggame.entities.EntityManager;
 import dev.learninggame.entities.Fire;
 import dev.learninggame.entities.creatures.Player;
@@ -70,10 +71,14 @@ public class World {
 		height = Utils.parseInt(tokens[1]);
 		spawnX = Utils.parseInt(tokens[2]);
 		spawnY = Utils.parseInt(tokens[3]);
-		
 		tiles = new int[width][height];
 		for(int y = 0; y < height; y++){
 			for(int x = 0; x < width; x++){
+				if(Utils.parseInt(tokens[(x + y * width) + 4]) == 4) {
+					tiles[x][y] = 0;
+					putBrick(x * Tile.TILEWIDTH, y * Tile.TILEHEIGHT);
+					continue;
+				}
 				tiles[x][y] = Utils.parseInt(tokens[(x + y * width) + 4]);
 			}
 		}
@@ -131,10 +136,31 @@ public class World {
 		return null;
 	}
 	
+	public boolean hasBrick(int currentEntityX, int currentEntityY) {
+		for(Brick b : entityManager.getBricks()) {
+			int currentBrickX = (int)b.getCurrentTileX(b.getX());
+			int currentBrickY = (int)b.getCurrentTileX(b.getY());
+			if(currentEntityX == currentBrickX && currentEntityY == currentBrickY) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public Brick getBrick(int currentEntityX, int currentEntityY) {
+		for(Brick b : entityManager.getBricks()) {
+			int currentBrickX = (int)b.getCurrentTileX(b.getX());
+			int currentBrickY = (int)b.getCurrentTileX(b.getY());
+			if(currentEntityX == currentBrickX && currentEntityY == currentBrickY) {
+				return b;
+			}
+		}
+		return null;
+	}
+	
 	public Tile getPlayer() {
 		return null; // Isso nem faz sentido
 	}
-	
 	public void installFire(float bombX, float bombY, int asset, int id) {
 		Fire fire = new Fire(handler, bombX, bombY, asset);
 		fire.setId(id);
@@ -145,6 +171,11 @@ public class World {
 			fire.verifyOpenYtop();
 			fire.verifyOpenYbot();
 		}
+	}
+	
+	public void putBrick(float posX, float posY) {
+		Brick brick = new Brick(handler, posX, posY);
+		entityManager.addBrick(brick);
 	}
 	
 	public void addCurrentId() {
