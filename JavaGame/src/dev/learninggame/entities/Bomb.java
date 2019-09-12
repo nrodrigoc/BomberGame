@@ -1,6 +1,7 @@
 package dev.learninggame.entities;
 
 import java.awt.Graphics;
+import java.io.FileNotFoundException;
 
 import dev.learninggame.Handler;
 import dev.learninggame.gfx.Animation;
@@ -38,6 +39,7 @@ public class Bomb extends Entity{
 	@Override
 	public void tick() {
 		animBomb.tick();
+		verifyTime();
 		currentTime = System.currentTimeMillis();
 	}
 
@@ -72,10 +74,30 @@ public class Bomb extends Entity{
 	}
 	
 	public void explodeThisBomb() {
+		System.out.println("aqui");
 		currentTime = System.currentTimeMillis() + 5000;
 	}
 	
+	/**
+	 * @author Nathan Rodrigo
+	 * Funcao para verificar se o tempo da bomba deve esgotar
+	 * @throws FileNotFoundException 
+	 */
+	public void verifyTime() {
+		int fireId = handler.getWorld().getCurrentId();
+		if(getTimeToExplode() > 5000) {
+			handler.getWorld().installFire(x, y, Fire.MAIN, fireId);
+			handler.getWorld().getEntityManager().removeBomb(id);
+			handler.getWorld().addCurrentId();
+			handler.getWorld().getEntityManager().getPlayer().addnOfBombs();
+			
+		}
+	}
+	
+	
 	@Override
-	protected void die() {}
+	protected void die() {
+	
+	}
 
 }

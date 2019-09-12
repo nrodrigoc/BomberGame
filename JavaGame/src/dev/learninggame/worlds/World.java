@@ -38,7 +38,6 @@ public class World {
 	
 	public void tick() {
 		entityManager.tick();
-		explodeBombs();
 	}
 	
 	public void render(Graphics g){
@@ -94,18 +93,6 @@ public class World {
 	
 	public int getHeight() {
 		return height;
-	}
-	
-	public void explodeBombs() {
-		for(Iterator<Bomb> b = entityManager.getBombs().iterator(); b.hasNext(); ) {
-			Bomb bomba = b.next();
-			if(bomba.getTimeToExplode() > 5000) {
-				installFire(bomba.getX(), bomba.getY(), Fire.MAIN, currentId);
-				addCurrentId();
-				b.remove();
-				entityManager.getPlayer().addnOfBombs(); //Diminui a contagem de bombas colocadas do player
-			}
-		}
 	}
 	
 	/**
