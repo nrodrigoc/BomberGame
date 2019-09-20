@@ -8,6 +8,7 @@ import java.awt.image.BufferedImage;
 import dev.learninggame.Handler;
 import dev.learninggame.entities.Bomb;
 import dev.learninggame.entities.Entity;
+import dev.learninggame.entities.Fire;
 import dev.learninggame.gfx.Animation;
 import dev.learninggame.gfx.Assets;
 
@@ -25,7 +26,6 @@ public class Player extends Creature implements Runnable{
 	private long tempoInicio;
 	private long tempoFinal;
 	protected boolean solid;
-	
 
 	@Override
 	public void run() {
@@ -52,7 +52,7 @@ public class Player extends Creature implements Runnable{
 		animRight = new Animation(150, Assets.player_right);
 		
 		//Contagem do tempo
-		tempoInicio = 0;
+		tempoInicio = System.currentTimeMillis();
 		tempoFinal = System.currentTimeMillis();
 	}
 
@@ -76,38 +76,18 @@ public class Player extends Creature implements Runnable{
 		move();
 		//handler.getGameCamera().centerOnEntity(this);
 		//Attack
-		checkAttacks();
-		
+		checkHurts();
 	}
 	
-	//Melee Attacks
-	private void checkAttacks() {
-		Rectangle cb = getCollisionBounds(0, 0);
-		Rectangle ar = new Rectangle();
-		int arSize = 20;
-		ar.width = arSize;
-		ar.height = arSize;
-		
-		if(handler.getKeyManager().bomb) {
-			ar.x = cb.x + cb.width / 2 - arSize / 2;
-			ar.y = cb.y - arSize;
-		}else
-			return;
-		
-		for(Entity e : handler.getWorld().getEntityManager().getEntities()) {
-			if(e.equals(this)) 
-				continue;
-			if(e.getCollisionBounds(0, 0).intersects(ar)) {
-				e.hurt(1);
-				return;
-			}
-			
+	//Bomb Attacks
+	private void checkHurts() {		
+		if(tempoFinal - currentHurt > 1000 && handler.getWorld().hasFire(getCurrentTileX(x), getCurrentTileY(y))) {
+			hurt(25);
+			currentHurt = tempoFinal;
 		}
-		
 	}
 	
 	public void die() {
-		System.out.println("U lose");
 	}
 	
 	public boolean isSolid() {
@@ -126,7 +106,7 @@ public class Player extends Creature implements Runnable{
 			xMove = -speed;
 		if(handler.getKeyManager().right)
 			xMove = speed;
-		if(handler.getKeyManager().bomb) {
+		if(handler.getKeyManager().bombBoy) {
 			if(tempoFinal - tempoInicio > 250) {
 				installBomb();
 				tempoInicio = tempoFinal;
@@ -150,12 +130,16 @@ public class Player extends Creature implements Runnable{
 		}
 	}
 	
+	public void fireHurt() {
+		
+	}
+	
 	@Override
 	public void render(Graphics g) {
 
 		g.drawImage(getCurrentAnimation(), (int)(x), (int)(y), width, height, null);
 		
-		/*g.setColor(Color.red); // Testar hit box
+		/*g.setColor(Color.yellow); // Testar hit box
 		g.fillRect((int) (x + bounds.x), (int)(y + bounds.y), bounds.width, bounds.height);*/
 	}
 

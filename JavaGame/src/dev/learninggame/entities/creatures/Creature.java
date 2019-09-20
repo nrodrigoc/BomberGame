@@ -20,12 +20,17 @@ public abstract class Creature extends Entity{
 	
 	protected float speed;
 	protected float xMove, yMove;
+	protected boolean hurted;
+	protected long currentHurt;
 	
 	public Creature(Handler handler, float x, float y, int width, int height) {
 		super(handler, x, y, width, height);
 		speed = DEFAULT_SPEED;
 		xMove = 0;
 		yMove = 0;
+		
+		hurted = false;
+		currentHurt = System.currentTimeMillis();
 	}
 	
 	public void move() {
@@ -168,13 +173,6 @@ public abstract class Creature extends Entity{
 			return true;
 	}
 	
-	
-	/*
-	public boolean collisionwithcreatures(int x, int y) {
-		
-	}
-	*/
-	
 	//GETTERS AND SETTERS
 	public float getxMove() {
 		return xMove;
@@ -208,4 +206,15 @@ public abstract class Creature extends Entity{
 		this.speed = speed;
 	}
 	
+	public void hurt(int amt) {
+		if(!hurted) {
+			System.out.println("Isso doeu!");
+			health -= amt;
+		}
+		
+		if(health <= 0) {
+			active = false;
+			die();
+		}
+	}
 }

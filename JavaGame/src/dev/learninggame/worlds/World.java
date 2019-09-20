@@ -17,7 +17,7 @@ public class World {
 	
 	private Handler handler;
 	private int width, height;
-	private int spawnX, spawnY;
+	private int spawnXBoy, spawnYBoy, spawnXGirl, spawnYGirl;
 	//Coordenadas das tiles
 	private int[][] tiles;
 	//Entities
@@ -32,8 +32,10 @@ public class World {
 		
 		currentId = 0;
 		
-		entityManager.getPlayer().setX(spawnX);
-		entityManager.getPlayer().setY(spawnY);
+		entityManager.getPlayer().setX(spawnXBoy);
+		entityManager.getPlayer().setY(spawnYBoy);
+		entityManager.getPlayerGirl().setX(spawnXGirl);
+		entityManager.getPlayerGirl().setY(spawnYGirl);
 	}
 	
 	public void tick() {
@@ -68,17 +70,20 @@ public class World {
 		String[] tokens = file.split("\\s+");
 		width = Utils.parseInt(tokens[0]);
 		height = Utils.parseInt(tokens[1]);
-		spawnX = Utils.parseInt(tokens[2]);
-		spawnY = Utils.parseInt(tokens[3]);
+		spawnXBoy = Utils.parseInt(tokens[2]);
+		spawnYBoy = Utils.parseInt(tokens[3]);
+		spawnXGirl = Utils.parseInt(tokens[4]);
+		spawnYGirl = Utils.parseInt(tokens[5]);
+		
 		tiles = new int[width][height];
 		for(int y = 0; y < height; y++){
 			for(int x = 0; x < width; x++){
-				if(Utils.parseInt(tokens[(x + y * width) + 4]) == 4) {
+				if(Utils.parseInt(tokens[(x + y * width) + 6]) == 4) {
 					tiles[x][y] = 0;
 					putBrick(x * Tile.TILEWIDTH, y * Tile.TILEHEIGHT);
 					continue;
 				}
-				tiles[x][y] = Utils.parseInt(tokens[(x + y * width) + 4]);
+				tiles[x][y] = Utils.parseInt(tokens[(x + y * width) + 6]);
 			}
 		}
 	}
@@ -123,6 +128,17 @@ public class World {
 		return null;
 	}
 	
+	public boolean hasFire(int currentEntityX, int currentEntityY) {
+		for(Fire f : entityManager.getFires()) {
+			int currentBombX = (int)f.getCurrentTileX(f.getX());
+			int currentBombY = (int)f.getCurrentTileX(f.getY());
+			if(currentEntityX == currentBombX && currentEntityY == currentBombY) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	public boolean hasBrick(int currentEntityX, int currentEntityY) {
 		for(Brick b : entityManager.getBricks()) {
 			int currentBrickX = (int)b.getCurrentTileX(b.getX());
@@ -131,6 +147,18 @@ public class World {
 				return true;
 			}
 		}
+		return false;
+	}
+	
+	public boolean hasPlayer(int currentEntityX, int currentEntityY) {
+		float playerX = entityManager.getPlayer().getX();
+		float playerY = entityManager.getPlayer().getY();
+		int currentPlayerX = (int)entityManager.getPlayer().getCurrentTileX(playerX);
+		int currentPlayerY = (int)entityManager.getPlayer().getCurrentTileX(playerY);
+		if(currentEntityX == currentPlayerX && currentEntityY == currentPlayerY)
+			return true;
+		
+		
 		return false;
 	}
 	
@@ -148,6 +176,7 @@ public class World {
 	public Tile getPlayer() {
 		return null; // Isso nem faz sentido
 	}
+	
 	public void installFire(float bombX, float bombY, int asset, int id) {
 		Fire fire = new Fire(handler, bombX, bombY, asset);
 		fire.setId(id);

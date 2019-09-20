@@ -53,7 +53,6 @@ public class Fire extends Entity{
 		currentTime = System.currentTimeMillis();
 		verifyTime();
 		verifyBombs(getCurrentTileX(x), getCurrentTileX(y));
-
 	}
 	
 	/**
@@ -165,7 +164,7 @@ public class Fire extends Entity{
 		}
 		return false;
 	}
-
+	
 	public int getId() {
 		return id;
 	}

@@ -10,6 +10,9 @@ import dev.learninggame.tiles.Tile;
 
 public class Bomb extends Entity{
 	
+	public static final int BOY = 1;
+	public static final int GIRL = 0;
+	
 	private Animation animBomb;
 	//Tempo que a bomba esta ativa
 	private long initialTime;

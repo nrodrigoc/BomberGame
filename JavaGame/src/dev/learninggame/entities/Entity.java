@@ -13,7 +13,7 @@ import dev.learninggame.tiles.Tile;
  */
 public abstract class Entity {
 	
-	public static final int DEFAULT_HEALTH = 10;
+	public static final int DEFAULT_HEALTH = 50;
 	
 	protected Handler handler;
 	protected float x, y;
@@ -91,14 +91,6 @@ public abstract class Entity {
 	public abstract void render(Graphics g);
 	
 	protected abstract void die();
-	
-	public void hurt(int amt) {
-		health -= amt;
-		if(health <= 0) {
-			active = false;
-			die();
-		}
-	}
 
 	public Rectangle getCollisionBounds(float xOffset, float yOffset) {
 		return new Rectangle((int)(x + bounds.x + xOffset), (int)(y + bounds.y + yOffset), bounds.width, bounds.height);

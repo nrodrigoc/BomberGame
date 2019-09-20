@@ -12,22 +12,22 @@ public class EntityManager {
 	
 	private Handler handler;
 	private Player player;
-	private PlayerGirl playerg;
+	private PlayerGirl playerGirl;
 	private ArrayList<Entity> entities;
 	private ArrayList<Bomb> bombs; 
 	private ArrayList<Fire> fires;
 	private ArrayList<Brick> bricks;
 	
-	public EntityManager(Handler handler, Player player, PlayerGirl playerg) {
+	public EntityManager(Handler handler, Player player, PlayerGirl playerGirl) {
 		this.handler = handler;
 		this.player = player;
-		this.playerg = playerg;
+		this.playerGirl = playerGirl;
 		entities = new ArrayList<>();
 		bombs = new ArrayList<>();
 		fires = new ArrayList<>();
 		bricks = new ArrayList<>();
 		addEntity(player);
-		addEntity(playerg);
+		addEntity(playerGirl);
 	}
 	
 	public void tick() {
@@ -108,6 +108,14 @@ public class EntityManager {
 
 	public void setPlayer(Player player) {
 		this.player = player;
+	}
+	
+	public PlayerGirl getPlayerGirl() {
+		return playerGirl;
+	}
+
+	public void setPlayerGirl(PlayerGirl player) {
+		this.playerGirl = player;
 	}
 
 	public ArrayList<Entity> getEntities() {
