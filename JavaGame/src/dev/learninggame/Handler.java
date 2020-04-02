@@ -1,5 +1,6 @@
 package dev.learninggame;
 
+import dev.learninggame.gfx.GameCamera;
 import dev.learninggame.input.KeyManager;
 import dev.learninggame.input.MouseManager;
 import dev.learninggame.worlds.World;
@@ -7,7 +8,7 @@ import dev.learninggame.worlds.World;
 /**
  * 
  * @author nrodrigo
- * Classe responsavel por gerenciar os objetos do jogo
+ * 	
  */ 
 public class Handler {
 	

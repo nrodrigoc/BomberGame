@@ -13,7 +13,7 @@ import dev.learninggame.tiles.Tile;
  */
 public abstract class Entity {
 	
-	public static final int DEFAULT_HEALTH = 50;
+	public static final int DEFAULT_HEALTH = 10;
 	
 	protected Handler handler;
 	protected float x, y;
@@ -91,6 +91,14 @@ public abstract class Entity {
 	public abstract void render(Graphics g);
 	
 	protected abstract void die();
+	
+	public void hurt(int amt) {
+		health -= amt;
+		if(health <= 0) {
+			active = false;
+			die();
+		}
+	}
 
 	public Rectangle getCollisionBounds(float xOffset, float yOffset) {
 		return new Rectangle((int)(x + bounds.x + xOffset), (int)(y + bounds.y + yOffset), bounds.width, bounds.height);
@@ -98,7 +106,7 @@ public abstract class Entity {
 	
 	/** @author Nathan Rodrigo
 	 * @param x Posicao X em pixel da criatura
-	 * @return A coordenada X da Tile onde se encontra a criatura*/
+	 * @return A coordenada X do meio da Tile onde se encontra a criatura*/
 	public int getCurrentTileX(float x) {
 		for(int i = 0; i < (handler.getHeight()/Tile.TILEHEIGHT) + (Tile.TILEHEIGHT*2); i++) {
 			if(x <= Tile.TILEHEIGHT*i) {
@@ -110,7 +118,7 @@ public abstract class Entity {
 	
 	/** @author Nathan Rodrigo
 	 * @param y Posicao Y em pixel da criatura
-	 * @return A coordenada Y da Tile onde se encontra a criatura*/
+	 * @return A coordenada Y do meio da Tile onde se encontra a criatura*/
 	public int getCurrentTileY(float y) {
 		for(int i = 0; i < handler.getHeight()/Tile.TILEHEIGHT + (Tile.TILEWIDTH*2); i++) {
 			if(y <= Tile.TILEHEIGHT*i) {
@@ -119,6 +127,4 @@ public abstract class Entity {
 		}
 		return 0;
 	}
-	
-	
 }

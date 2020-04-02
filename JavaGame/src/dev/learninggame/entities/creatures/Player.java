@@ -4,13 +4,14 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 import dev.learninggame.Handler;
 import dev.learninggame.entities.Bomb;
 import dev.learninggame.entities.Entity;
-import dev.learninggame.entities.Fire;
 import dev.learninggame.gfx.Animation;
 import dev.learninggame.gfx.Assets;
+import dev.learninggame.tiles.Tile;
 
 public class Player extends Creature implements Runnable{
 	
@@ -25,8 +26,7 @@ public class Player extends Creature implements Runnable{
 	private Animation animRight;
 	private long tempoInicio;
 	private long tempoFinal;
-	protected boolean solid;
-
+	
 	@Override
 	public void run() {
 		System.out.println("player iniciado");
@@ -34,8 +34,7 @@ public class Player extends Creature implements Runnable{
 	
 	public Player(Handler handler, float x, float y) {	
 		super(handler, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
-		solid = true;
-		setSolidity(false);
+		
 		maxBombs = 10;
 		
 		//ajuste da posicao da hitbox
@@ -52,12 +51,8 @@ public class Player extends Creature implements Runnable{
 		animRight = new Animation(150, Assets.player_right);
 		
 		//Contagem do tempo
-		tempoInicio = System.currentTimeMillis();
+		tempoInicio = 0;
 		tempoFinal = System.currentTimeMillis();
-	}
-
-	protected void setSolidity(boolean b) {
-		this.solid = b;
 	}
 
 	@Override
@@ -76,22 +71,38 @@ public class Player extends Creature implements Runnable{
 		move();
 		//handler.getGameCamera().centerOnEntity(this);
 		//Attack
-		checkHurts();
+		checkAttacks();
+		
 	}
 	
-	//Bomb Attacks
-	private void checkHurts() {		
-		if(tempoFinal - currentHurt > 1000 && handler.getWorld().hasFire(getCurrentTileX(x), getCurrentTileY(y))) {
-			hurt(25);
-			currentHurt = tempoFinal;
+	//Melee Attacks
+	private void checkAttacks() {
+		Rectangle cb = getCollisionBounds(0, 0);
+		Rectangle ar = new Rectangle();
+		int arSize = 20;
+		ar.width = arSize;
+		ar.height = arSize;
+		
+		if(handler.getKeyManager().bomb) {
+			ar.x = cb.x + cb.width / 2 - arSize / 2;
+			ar.y = cb.y - arSize;
+		}else
+			return;
+		
+		for(Entity e : handler.getWorld().getEntityManager().getEntities()) {
+			if(e.equals(this)) 
+				continue;
+			if(e.getCollisionBounds(0, 0).intersects(ar)) {
+				e.hurt(1);
+				return;
+			}
+			
 		}
+		
 	}
 	
 	public void die() {
-	}
-	
-	public boolean isSolid() {
-		return solid;
+		System.out.println("U lose");
 	}
 	
 	private void getInput() {
@@ -106,14 +117,27 @@ public class Player extends Creature implements Runnable{
 			xMove = -speed;
 		if(handler.getKeyManager().right)
 			xMove = speed;
-		if(handler.getKeyManager().bombBoy) {
+		if(handler.getKeyManager().bomb) {
 			if(tempoFinal - tempoInicio > 250) {
 				installBomb();
 				tempoInicio = tempoFinal;
 			}
 		}
 			
-	
+		
+		/*else if(numero == 2) { 2 player
+			if(handler.getKeyManager().up2)
+				yMove = -speed;
+			if(handler.getKeyManager().down2)
+				yMove = speed;
+			if(game.getKeyManager().left2)
+				xMove = -speed;
+			if(game.getKeyManager().right2)
+				xMove = speed;
+		}else {
+			return;
+		}*/
+		
 	}
 	
 	/*
@@ -130,16 +154,12 @@ public class Player extends Creature implements Runnable{
 		}
 	}
 	
-	public void fireHurt() {
-		
-	}
-	
 	@Override
 	public void render(Graphics g) {
 
 		g.drawImage(getCurrentAnimation(), (int)(x), (int)(y), width, height, null);
 		
-		/*g.setColor(Color.yellow); // Testar hit box
+		/*g.setColor(Color.red); // Testar hit box
 		g.fillRect((int) (x + bounds.x), (int)(y + bounds.y), bounds.width, bounds.height);*/
 	}
 

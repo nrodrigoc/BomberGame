@@ -5,11 +5,8 @@ import java.util.Iterator;
 
 import dev.learninggame.Handler;
 import dev.learninggame.entities.Bomb;
-import dev.learninggame.entities.Brick;
 import dev.learninggame.entities.EntityManager;
-import dev.learninggame.entities.Fire;
 import dev.learninggame.entities.creatures.Player;
-import dev.learninggame.entities.creatures.PlayerGirl;
 import dev.learninggame.tiles.Tile;
 import dev.learninggame.utils.Utils;
 
@@ -17,29 +14,28 @@ public class World {
 	
 	private Handler handler;
 	private int width, height;
-	private int spawnXBoy, spawnYBoy, spawnXGirl, spawnYGirl;
+	private int spawnX, spawnY;
 	//Coordenadas das tiles
 	private int[][] tiles;
 	//Entities
 	private EntityManager entityManager;
-	//ID da ultima explosao ocorrida no jogo
-	private int currentId;
+	//ID e indice da ultima bomba do arrayList
+	//private int currentId;
 	
 	public World(Handler handler, String path) {
 		this.handler = handler;
-		entityManager = new EntityManager(handler, new Player(handler, 100, 100),  new PlayerGirl(handler, 100, 100));
+		entityManager = new EntityManager(handler, new Player(handler, 100, 100));
 		loadWorld(path);
 		
-		currentId = 0;
+		//currentId = -1;
 		
-		entityManager.getPlayer().setX(spawnXBoy);
-		entityManager.getPlayer().setY(spawnYBoy);
-		entityManager.getPlayerGirl().setX(spawnXGirl);
-		entityManager.getPlayerGirl().setY(spawnYGirl);
+		entityManager.getPlayer().setX(spawnX);
+		entityManager.getPlayer().setY(spawnY);
 	}
 	
 	public void tick() {
 		entityManager.tick();
+		explodeBombs();
 	}
 	
 	public void render(Graphics g){
@@ -70,20 +66,13 @@ public class World {
 		String[] tokens = file.split("\\s+");
 		width = Utils.parseInt(tokens[0]);
 		height = Utils.parseInt(tokens[1]);
-		spawnXBoy = Utils.parseInt(tokens[2]);
-		spawnYBoy = Utils.parseInt(tokens[3]);
-		spawnXGirl = Utils.parseInt(tokens[4]);
-		spawnYGirl = Utils.parseInt(tokens[5]);
+		spawnX = Utils.parseInt(tokens[2]);
+		spawnY = Utils.parseInt(tokens[3]);
 		
 		tiles = new int[width][height];
 		for(int y = 0; y < height; y++){
 			for(int x = 0; x < width; x++){
-				if(Utils.parseInt(tokens[(x + y * width) + 6]) == 4) {
-					tiles[x][y] = 0;
-					putBrick(x * Tile.TILEWIDTH, y * Tile.TILEHEIGHT);
-					continue;
-				}
-				tiles[x][y] = Utils.parseInt(tokens[(x + y * width) + 6]);
+				tiles[x][y] = Utils.parseInt(tokens[(x + y * width) + 4]);
 			}
 		}
 	}
@@ -100,105 +89,67 @@ public class World {
 		return height;
 	}
 	
+	public void explodeBombs() {
+		for(Iterator<Bomb> b = entityManager.getBombs().iterator(); b.hasNext(); ) {
+			Bomb bomba = b.next();
+			if(bomba.getTimeToExplode() > 5000) {
+				b.remove();
+				entityManager.getPlayer().addnOfBombs();
+			}
+		}
+	}
+	
 	/**
 	 * @author Nathan Rodrigo
-	 * @param currentPlayerX pos x da tile atual da entidade
-	 * @param currentPlayerY pos y da tile atual da entidade
+	 * @param currentPlayerX pos x da tile atual do player
+	 * @param currentPlayerY pos y da tile atual do player
 	 * @return True se a tile sugerida possui bomba  
 	 */
-	public boolean hasBomb(int currentEntityX, int currentEntityY) {
+	public boolean hasBomb(int currentPlayerX, int currentPlayerY) {
 		for(Bomb b : entityManager.getBombs()) {
 			int currentBombX = (int)b.getCurrentTileX(b.getX());
 			int currentBombY = (int)b.getCurrentTileX(b.getY());
-			if(currentEntityX == currentBombX && currentEntityY == currentBombY) {
+			if(currentPlayerX == currentBombX && currentPlayerY == currentBombY) {
 				return true;
 			}
 		}
 		return false;
 	}
 	
-	public Bomb getBomb(int currentEntityX, int currentEntityY) {
+	public Bomb getBomb(int currentPlayerX, int currentPlayerY) {
 		for(Bomb b : entityManager.getBombs()) {
 			int currentBombX = (int)b.getCurrentTileX(b.getX());
 			int currentBombY = (int)b.getCurrentTileX(b.getY());
-			if(currentEntityX == currentBombX && currentEntityY == currentBombY) {
+			if(currentPlayerX == currentBombX && currentPlayerY == currentBombY) {
 				return b;
 			}
 		}
 		return null;
 	}
 	
-	public boolean hasFire(int currentEntityX, int currentEntityY) {
-		for(Fire f : entityManager.getFires()) {
-			int currentBombX = (int)f.getCurrentTileX(f.getX());
-			int currentBombY = (int)f.getCurrentTileX(f.getY());
-			if(currentEntityX == currentBombX && currentEntityY == currentBombY) {
-				return true;
-			}
-		}
-		return false;
+	/*public int currentBombID() {
+		return currentId;
 	}
-	
-	public boolean hasBrick(int currentEntityX, int currentEntityY) {
-		for(Brick b : entityManager.getBricks()) {
-			int currentBrickX = (int)b.getCurrentTileX(b.getX());
-			int currentBrickY = (int)b.getCurrentTileX(b.getY());
-			if(currentEntityX == currentBrickX && currentEntityY == currentBrickY) {
-				return true;
-			}
-		}
-		return false;
-	}
-	
-	public boolean hasPlayer(int currentEntityX, int currentEntityY) {
-		float playerX = entityManager.getPlayer().getX();
-		float playerY = entityManager.getPlayer().getY();
-		int currentPlayerX = (int)entityManager.getPlayer().getCurrentTileX(playerX);
-		int currentPlayerY = (int)entityManager.getPlayer().getCurrentTileX(playerY);
-		if(currentEntityX == currentPlayerX && currentEntityY == currentPlayerY)
-			return true;
-		
-		
-		return false;
-	}
-	
-	public Brick getBrick(int currentEntityX, int currentEntityY) {
-		for(Brick b : entityManager.getBricks()) {
-			int currentBrickX = (int)b.getCurrentTileX(b.getX());
-			int currentBrickY = (int)b.getCurrentTileX(b.getY());
-			if(currentEntityX == currentBrickX && currentEntityY == currentBrickY) {
-				return b;
-			}
-		}
-		return null;
-	}
-	
-	public Tile getPlayer() {
-		return null; // Isso nem faz sentido
-	}
-	
-	public void installFire(float bombX, float bombY, int asset, int id) {
-		Fire fire = new Fire(handler, bombX, bombY, asset);
-		fire.setId(id);
-		entityManager.addFire(fire);
-		for(int i = 0; i < 2; i++) {
-			fire.verifyOpenXleft();
-			fire.verifyOpenXright();
-			fire.verifyOpenYtop();
-			fire.verifyOpenYbot();
-		}
-	}
-	
-	public void putBrick(float posX, float posY) {
-		Brick brick = new Brick(handler, posX, posY);
-		entityManager.addBrick(brick);
-	}
-	
-	public void addCurrentId() {
-		this.currentId++;
-	}
-	
+
 	public int getCurrentId() {
 		return currentId;
 	}
+	
+	/**
+	 * @author Nathan Rodrigo
+	 * @param removedId Id da bomba recem removida
+	 * <p>Reajusta todos os ids das bombas para que sejam identificadas posteriormente</p>
+	 */
+	/*public void idReadjustment(int removedId) {
+		for(Bomb b : entityManager.getBombs()) {
+			System.out.println("Removed: " + removedId + "Current: "+ b.getId());
+			if(b.getId() > removedId) {
+				b.setId(b.getId()-1);
+			}
+		}
+	}
+	
+	/public void setCurrentId(int currentId) {
+		this.currentId = currentId;
+	}*/
 }

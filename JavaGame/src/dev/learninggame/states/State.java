@@ -2,6 +2,7 @@ package dev.learninggame.states;
 
 import java.awt.Graphics;
 
+import dev.learninggame.Game;
 import dev.learninggame.Handler;
 
 public abstract class State {

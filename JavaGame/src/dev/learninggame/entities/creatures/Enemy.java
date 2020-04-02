@@ -2,8 +2,10 @@ package dev.learninggame.entities.creatures;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import dev.learninggame.gfx.Animation;
 import dev.learninggame.Handler;
 import dev.learninggame.gfx.Assets;
+import dev.learninggame.tiles.Tile;
 
 public class Enemy extends Creature{
 
