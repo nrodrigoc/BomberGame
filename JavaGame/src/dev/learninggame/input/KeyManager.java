@@ -6,11 +6,11 @@ import java.awt.event.KeyListener;
 public class KeyManager implements KeyListener{
 
 	private boolean[] keys;
-	public boolean up, down, right, left, bomb;
-	public boolean up2, down2, right2, left2;
+	public boolean up, down, right, left, bombBoy;
+	public boolean up2, down2, right2, left2, bombGirl;
 	
 	public KeyManager() {
-		keys = new boolean[256];
+		keys = new boolean[1048];
 	}
 	
 	public void tick() {
@@ -18,12 +18,13 @@ public class KeyManager implements KeyListener{
 		down = keys[KeyEvent.VK_S];
 		left = keys[KeyEvent.VK_A];
 		right = keys[KeyEvent.VK_D];
-		bomb = keys[KeyEvent.VK_SPACE];
+		bombBoy = keys[KeyEvent.VK_SPACE];
 		
 		up2 = keys[KeyEvent.VK_UP];
 		down2 = keys[KeyEvent.VK_DOWN];
 		left2 = keys[KeyEvent.VK_LEFT];
 		right2 = keys[KeyEvent.VK_RIGHT];
+		bombGirl = keys[KeyEvent.VK_I];
 		
 	}
 	

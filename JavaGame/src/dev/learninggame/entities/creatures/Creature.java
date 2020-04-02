@@ -2,6 +2,7 @@ package dev.learninggame.entities.creatures;
 
 import dev.learninggame.Handler;
 import dev.learninggame.entities.Bomb;
+import dev.learninggame.entities.Brick;
 import dev.learninggame.entities.Entity;
 import dev.learninggame.tiles.Tile;
 
@@ -19,12 +20,17 @@ public abstract class Creature extends Entity{
 	
 	protected float speed;
 	protected float xMove, yMove;
+	protected boolean hurted;
+	protected long currentHurt;
 	
 	public Creature(Handler handler, float x, float y, int width, int height) {
 		super(handler, x, y, width, height);
 		speed = DEFAULT_SPEED;
 		xMove = 0;
 		yMove = 0;
+		
+		hurted = false;
+		currentHurt = System.currentTimeMillis();
 	}
 	
 	public void move() {
@@ -39,7 +45,8 @@ public abstract class Creature extends Entity{
 		    
 		    //Verifica se a hitbox da criatura esta em contato com algo solido
 		    if(!collisionWithTile(tx, (int) (y + bounds.y) / Tile.TILEHEIGHT) &&
-		    		!collisionWithTile(tx, (int) (y + bounds.y + bounds.height) / Tile.TILEHEIGHT) && collisionWithBomb(RIGHT)) {
+		    		!collisionWithTile(tx, (int) (y + bounds.y + bounds.height) / Tile.TILEHEIGHT) 
+		    		&& collisionWithBomb(RIGHT) && collisionWithBrick(RIGHT)) {
 		    	x += xMove;
 		    }else {
 				x = tx * Tile.TILEWIDTH - bounds.x - bounds.width - 1;
@@ -48,7 +55,8 @@ public abstract class Creature extends Entity{
 		}else if(xMove < 0) {//Moving Left
 			int tx = (int) (x + xMove + bounds.x) / Tile.TILEWIDTH;
 		    if(!collisionWithTile(tx, (int) (y + bounds.y) / Tile.TILEHEIGHT) &&
-		    		!collisionWithTile(tx, (int) (y + bounds.y + bounds.height) / Tile.TILEHEIGHT) && collisionWithBomb(LEFT)) {
+		    		!collisionWithTile(tx, (int) (y + bounds.y + bounds.height) / Tile.TILEHEIGHT) 
+		    		&& collisionWithBomb(LEFT) && collisionWithBrick(LEFT)) {
 		    	x += xMove;
 		    }else {
 				x = tx * Tile.TILEWIDTH + Tile.TILEWIDTH - bounds.x;
@@ -61,7 +69,8 @@ public abstract class Creature extends Entity{
 			int ty = (int) (y + yMove + bounds.y) / Tile.TILEHEIGHT;
 		
 			if(!collisionWithTile((int) ((x + bounds.x) / Tile.TILEWIDTH), ty) &&
-					!collisionWithTile((int) ((x + bounds.x + bounds.width) / Tile.TILEWIDTH), ty) && collisionWithBomb(UP)){
+					!collisionWithTile((int) ((x + bounds.x + bounds.width) / Tile.TILEWIDTH), ty) 
+					&& collisionWithBomb(UP) && collisionWithBrick(UP)){
 					y += yMove;
 			}else {
 				y = ty * Tile.TILEWIDTH + Tile.TILEWIDTH - bounds.y;
@@ -71,7 +80,8 @@ public abstract class Creature extends Entity{
 			int ty = (int) (y + yMove + bounds.y + bounds.height) / Tile.TILEHEIGHT;
 			
 			if(!collisionWithTile((int) ((x + bounds.x) / Tile.TILEWIDTH), ty) &&
-					!collisionWithTile((int) ((x + bounds.x + bounds.width) / Tile.TILEWIDTH), ty) && collisionWithBomb(DOWN)) {
+					!collisionWithTile((int) ((x + bounds.x + bounds.width) / Tile.TILEWIDTH), ty)
+					&& collisionWithBomb(DOWN)  && collisionWithBrick(DOWN)) {
 					y += yMove;
 			}else {
 				y = ty * Tile.TILEWIDTH - bounds.height - bounds.y - 1;
@@ -83,10 +93,10 @@ public abstract class Creature extends Entity{
 		return handler.getWorld().getTile(x, y).isSolid();
 	}
 	
-	/*
+	/**
 	 * @author Nathan Rodrigo
 	 * @param direction direcao para onde o personagem vai andar
-	 * @return false se o player pode seguir em frente
+	 * @return false se nao houver bombas no caminho
 	 */
 	protected boolean collisionWithBomb(int direction){
 		Bomb bomb = new Bomb(handler, x, y);
@@ -118,6 +128,46 @@ public abstract class Creature extends Entity{
 			bomb = handler.getWorld().getBomb(getCurrentTileX(x-16), getCurrentTileY(y));
 			int boundsBombX = (int)bomb.getBoundsX();
 			if(this.x > boundsBombX)
+				return false;
+		}
+			return true;
+	}
+	
+	/**
+	 * @author Nathan Rodrigo
+	 * @param direction direcao para onde o personagem vai andar
+	 * @return false se nao houver tijolos no caminho
+	 */
+	protected boolean collisionWithBrick(int direction){
+		Brick brick = new Brick(handler, x, y);
+		if(direction == DOWN &&
+				handler.getWorld().hasBrick(getCurrentTileX(x), getCurrentTileY(y+26))) {
+			
+			brick = handler.getWorld().getBrick(getCurrentTileX(x), getCurrentTileY(y+26));
+			int boundsBrickY = (int)brick.getBoundsY();
+			if(this.y < boundsBrickY - Tile.TILEHEIGHT)
+				return false;
+			
+		}else if(direction == UP &&
+				handler.getWorld().hasBrick(getCurrentTileX(x), getCurrentTileY(y-12))) {
+			
+			brick = handler.getWorld().getBrick(getCurrentTileX(x), getCurrentTileY(y-12));
+			int boundsBrickY = (int)brick.getBoundsY();
+			if(this.y > boundsBrickY)
+				return false;
+		}else if(direction == RIGHT &&
+				handler.getWorld().hasBrick(getCurrentTileX(x+16), getCurrentTileY(y))) {
+			
+			brick = handler.getWorld().getBrick(getCurrentTileX(x+16), getCurrentTileY(y));
+			int boundsBrickX = (int)brick.getBoundsX();
+			if(this.x < boundsBrickX - Tile.TILEWIDTH)
+				return false;
+		}else if(direction == LEFT &&
+				handler.getWorld().hasBrick(getCurrentTileX(x-16), getCurrentTileY(y))) {
+			
+			brick = handler.getWorld().getBrick(getCurrentTileX(x-16), getCurrentTileY(y));
+			int boundsBrickX = (int)brick.getBoundsX();
+			if(this.x > boundsBrickX)
 				return false;
 		}
 			return true;
@@ -156,4 +206,15 @@ public abstract class Creature extends Entity{
 		this.speed = speed;
 	}
 	
+	public void hurt(int amt) {
+		if(!hurted) {
+			System.out.println("Isso doeu!");
+			health -= amt;
+		}
+		
+		if(health <= 0) {
+			active = false;
+			die();
+		}
+	}
 }

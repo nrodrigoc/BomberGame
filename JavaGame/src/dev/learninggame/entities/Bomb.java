@@ -1,6 +1,7 @@
 package dev.learninggame.entities;
 
 import java.awt.Graphics;
+import java.io.FileNotFoundException;
 
 import dev.learninggame.Handler;
 import dev.learninggame.gfx.Animation;
@@ -9,16 +10,21 @@ import dev.learninggame.tiles.Tile;
 
 public class Bomb extends Entity{
 	
+	public static final int BOY = 1;
+	public static final int GIRL = 0;
+	
 	private Animation animBomb;
 	//Tempo que a bomba esta ativa
 	private long initialTime;
-	private long timeToExplode;
+	private long currentTime;
+	private int gender;
 	private int id;
 
 	public Bomb(Handler handler, float x, float y) {
 		super(handler, x, y, Tile.TILEWIDTH, Tile.TILEHEIGHT);
 		
-		//id da bomba e posicao dela no array
+		//Personagem que colocou a bomba
+		gender = BOY;
 		
 		//Posicao da bomba
 		bounds.x = Tile.TILEWIDTH * getCurrentTileX(x);
@@ -27,9 +33,9 @@ public class Bomb extends Entity{
 		bounds.width = Tile.TILEWIDTH;
 		bounds.height = Tile.TILEHEIGHT;
 		
-		//Tempo inial da bomba
+		//Tempo inicial da bomba
 		initialTime = System.currentTimeMillis();
-		timeToExplode = System.currentTimeMillis();
+		currentTime = System.currentTimeMillis();
 		
 		animBomb = new Animation(300, Assets.putBomb);
 		
@@ -38,7 +44,8 @@ public class Bomb extends Entity{
 	@Override
 	public void tick() {
 		animBomb.tick();
-		timeToExplode = System.currentTimeMillis();
+		verifyTime();
+		currentTime = System.currentTimeMillis();
 	}
 
 	@Override
@@ -60,7 +67,7 @@ public class Bomb extends Entity{
 	}
 	
 	public long getTimeToExplode() {
-		return timeToExplode - initialTime;
+		return currentTime - initialTime;
 	}
 	
 	public int getId() {
@@ -71,7 +78,40 @@ public class Bomb extends Entity{
 		this.id = id;
 	}
 	
+	public void explodeThisBomb() {
+		System.out.println("aqui");
+		currentTime = System.currentTimeMillis() + 5000;
+	}
+	
+	/**
+	 * @author Nathan Rodrigo
+	 * Funcao para verificar se o tempo da bomba deve esgotar
+	 * @throws FileNotFoundException 
+	 */
+	public void verifyTime() {
+		int fireId = handler.getWorld().getCurrentId();
+		if(getTimeToExplode() > 5000) {
+			handler.getWorld().installFire(x, y, Fire.MAIN, fireId);
+			handler.getWorld().getEntityManager().removeBomb(id);
+			handler.getWorld().addCurrentId();
+			if(gender == BOY)
+				handler.getWorld().getEntityManager().getPlayer().addnOfBombs();
+			else
+				handler.getWorld().getEntityManager().getPlayerGirl().addnOfBombs();
+			
+		}
+	}
+	
+	/*
+	 * Aponta qual personagem colocou a bomba
+	 */
+	public void setGender(int gender) {
+		this.gender = gender;
+	}
+	
 	@Override
-	protected void die() {}
+	protected void die() {
+	
+	}
 
 }
